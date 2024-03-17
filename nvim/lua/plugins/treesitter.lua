@@ -1,6 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  opts = {
-    auto_install = true,
-  },
+  opts = function(_, opts)
+    if type(opts.ensure_installed) == "table" then
+      vim.list_extend(opts.ensure_installed, { "markdown" })
+      vim.treesitter.language.register("markdown", "mdx")
+    end
+  end,
 }
