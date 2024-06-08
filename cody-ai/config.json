@@ -1,0 +1,83 @@
+{
+  "config": {
+    "proxy": "",
+    "codebase": "",
+    "customHeaders": {},
+    "useContext": "blended",
+    "debugVerbose": false,
+    "debugFilter": null,
+    "telemetryLevel": "all",
+    "autocomplete": true,
+    "autocompleteLanguages": {
+      "*": true
+    },
+    "chatPreInstruction": "",
+    "editPreInstruction": "",
+    "commandCodeLenses": false,
+    "autocompleteAdvancedProvider": null,
+    "autocompleteAdvancedModel": null,
+    "autocompleteCompleteSuggestWidgetSelection": true,
+    "autocompleteFormatOnAccept": false,
+    "autocompleteDisableInsideComments": false,
+    "codeActions": true,
+    "commandHints": true,
+    "internalUnstable": false,
+    "autocompleteExperimentalGraphContext": null,
+    "experimentalSimpleChatContext": true,
+    "experimentalSymfContext": true,
+    "experimentalCommitMessage": true,
+    "experimentalNoodle": false,
+    "experimentalURLContext": false,
+    "experimentalGuardrails": false,
+    "experimentalTracing": false,
+    "experimentalOllamaChat": true,
+    "experimentalSupercompletions": false,
+    "experimentalChatContextRanker": false,
+    "experimentalGithubAccessToken": "",
+    "autocompleteExperimentalHotStreak": false,
+    "autocompleteExperimentalOllamaOptions": {
+      "url": "http://localhost:11434",
+      "model": "codellama:7b-code"
+    },
+    "autocompleteExperimentalSmartThrottle": false,
+    "isRunningInsideAgent": false,
+    "autocompleteTimeouts": {},
+    "accessToken": "sgp_636f79ad2075640f_3627192c703068c21feec0803c65e439963f5c73",
+    "serverEndpoint": "https://sourcegraph.com/"
+  },
+  "authStatus": {
+    "endpoint": "https://sourcegraph.com/",
+    "isDotCom": true,
+    "isLoggedIn": true,
+    "showInvalidAccessTokenError": false,
+    "authenticated": true,
+    "hasVerifiedEmail": true,
+    "requiresVerifiedEmail": true,
+    "siteHasCodyEnabled": true,
+    "siteVersion": "277307_2024-06-06_5.4-9185da3c3e42",
+    "userCanUpgrade": true,
+    "username": "thomblweed",
+    "primaryEmail": "thomblweed@gmail.com",
+    "displayName": "Thomas Newman",
+    "avatarURL": "https://avatars.githubusercontent.com/u/32926219?v=4",
+    "codyApiVersion": 1,
+    "configOverwrites": {
+      "chatModel": "anthropic/claude-3-sonnet-20240229",
+      "chatModelMaxTokens": 12000,
+      "fastChatModel": "anthropic/claude-3-haiku-20240307",
+      "fastChatModelMaxTokens": 12000,
+      "completionModel": "fireworks/starcoder",
+      "completionModelMaxTokens": 9000,
+      "provider": "sourcegraph",
+      "smartContextWindow": true
+    }
+  },
+  "anonymousUserID": "ea7dbfc6-f499-45f2-8a93-9ae9029bde91",
+  "extensionDetails": {
+    "ide": "VSCode",
+    "ideExtensionType": "Cody",
+    "platform": "macos",
+    "arch": "aarch64",
+    "version": "1.20.3"
+  }
+}
