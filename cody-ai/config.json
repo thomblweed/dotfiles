@@ -23,44 +23,36 @@
     "commandHints": true,
     "internalUnstable": false,
     "autocompleteExperimentalGraphContext": null,
-    "experimentalSimpleChatContext": true,
-    "experimentalSymfContext": true,
     "experimentalCommitMessage": true,
     "experimentalNoodle": false,
-    "experimentalURLContext": false,
-    "experimentalGuardrails": false,
     "experimentalTracing": false,
-    "experimentalOllamaChat": true,
     "experimentalSupercompletions": false,
-    "experimentalChatContextRanker": false,
-    "experimentalGithubAccessToken": "",
-    "autocompleteExperimentalHotStreak": false,
     "autocompleteExperimentalOllamaOptions": {
       "url": "http://localhost:11434",
       "model": "codellama:7b-code"
     },
-    "autocompleteExperimentalSmartThrottle": false,
+    "autocompleteExperimentalHotStreakAndSmartThrottle": false,
+    "autocompleteExperimentalPreloadDebounceInterval": 0,
     "isRunningInsideAgent": false,
     "autocompleteTimeouts": {},
+    "autocompleteFirstCompletionTimeout": 3500,
     "accessToken": "sgp_636f79ad2075640f_3627192c703068c21feec0803c65e439963f5c73",
     "serverEndpoint": "https://sourcegraph.com/"
   },
   "authStatus": {
+    "id": "VXNlcjoyMDY5NjQ=",
+    "hasVerifiedEmail": true,
+    "displayName": "Thomas Newman",
+    "username": "thomblweed",
+    "avatarURL": "https://avatars.githubusercontent.com/u/32926219?v=4",
+    "primaryEmail": "thomblweed@gmail.com",
+    "organizations": {
+      "nodes": []
+    },
     "endpoint": "https://sourcegraph.com/",
     "isDotCom": true,
-    "isLoggedIn": true,
-    "showInvalidAccessTokenError": false,
-    "authenticated": true,
-    "hasVerifiedEmail": true,
-    "requiresVerifiedEmail": true,
     "siteHasCodyEnabled": true,
-    "siteVersion": "277307_2024-06-06_5.4-9185da3c3e42",
-    "userCanUpgrade": true,
-    "username": "thomblweed",
-    "primaryEmail": "thomblweed@gmail.com",
-    "displayName": "Thomas Newman",
-    "avatarURL": "https://avatars.githubusercontent.com/u/32926219?v=4",
-    "codyApiVersion": 1,
+    "siteVersion": "286853_2024-08-09_5.6-d0b88533b456",
     "configOverwrites": {
       "chatModel": "anthropic/claude-3-sonnet-20240229",
       "chatModelMaxTokens": 12000,
@@ -70,14 +62,20 @@
       "completionModelMaxTokens": 9000,
       "provider": "sourcegraph",
       "smartContextWindow": true
-    }
+    },
+    "authenticated": true,
+    "userCanUpgrade": true,
+    "showInvalidAccessTokenError": false,
+    "requiresVerifiedEmail": true,
+    "isLoggedIn": true,
+    "codyApiVersion": 1,
+    "isFireworksTracingEnabled": false
   },
   "anonymousUserID": "ea7dbfc6-f499-45f2-8a93-9ae9029bde91",
   "extensionDetails": {
     "ide": "VSCode",
-    "ideExtensionType": "Cody",
-    "platform": "macos",
     "arch": "aarch64",
-    "version": "1.20.3"
+    "platform": "macos",
+    "version": "1.30.2"
   }
 }
