@@ -51,3 +51,11 @@ require("lazy").setup({
 })
 
 require("sg").setup({})
+
+local cmp = require("cmp")
+cmp.setup({
+  sources = cmp.config.sources({
+    { name = "cody" },
+    { name = "nvim_lsp" },
+  }),
+})
