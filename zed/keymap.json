@@ -7,7 +7,7 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
+    "context": "Workspace && ! (vim_mode == insert)",
     "bindings": {
       "space e": "workspace::ToggleLeftDock"
     }
@@ -59,12 +59,12 @@
       // work when no editor exists.
       // "space f": "file_finder::Toggle"
     }
-  }
+  },
   // write on switching to normal mode
-  // {
-  //   "context": "Editor && vim_mode == insert || vim_mode == normal",
-  //   "bindings": {
-  //     "escape": ["workspace::SendKeystrokes", "escape : w enter"]
-  //   }
-  // }
+  {
+    "context": "Editor && vim_mode == insert || vim_mode == normal",
+    "bindings": {
+      "escape": ["workspace::SendKeystrokes", "escape : w enter"]
+    }
+  }
 ]
