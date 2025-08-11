@@ -15,22 +15,22 @@
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
-      "shift-h": "pane::ActivatePreviousItem",
+      "shift-h": "pane::ActivatePrevItem",
       "shift-l": "pane::ActivateNextItem",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   },
   {
     "context": "ProjectPanel",
     "bindings": {
       "space e": "workspace::ToggleLeftDock",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   },
   {
@@ -60,11 +60,4 @@
       // "space f": "file_finder::Toggle"
     }
   }
-  // write on switching to normal mode
-  // {
-  //   "context": "Editor && vim_mode == insert || vim_mode == normal",
-  //   "bindings": {
-  //     "escape": ["workspace::SendKeystrokes", "escape : w enter"]
-  //   }
-  // }
 ]

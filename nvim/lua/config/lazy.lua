@@ -50,7 +50,7 @@ require("lazy").setup({
   },
 })
 
-require("sg").setup({})
+-- require("sg").setup({})
 
 -- local cmp = require("cmp")
 -- cmp.setup({

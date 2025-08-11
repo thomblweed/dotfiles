@@ -7,3 +7,7 @@ vim.filetype.add({
     mdx = "mdx",
   },
 })
+
+-- recommended from the avante docs
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
