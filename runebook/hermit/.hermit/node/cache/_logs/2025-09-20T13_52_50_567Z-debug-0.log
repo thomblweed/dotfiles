@@ -1,0 +1,17 @@
+0 verbose cli /Users/thom/.config/runebook/hermit/cache/pkg/node@lts/bin/node /Users/thom/.config/runebook/hermit/cache/pkg/node@lts/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.19.5
+3 silly config load:file:/Users/thom/.config/runebook/hermit/cache/pkg/node@lts/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/thom/.config/runebook/hermit/.npmrc
+5 silly config load:file:/Users/thom/.npmrc
+6 silly config load:file:/Users/thom/.config/runebook/hermit/.hermit/node/etc/npmrc
+7 verbose title npm exec
+8 verbose argv "exec" "--usage"
+9 verbose logfile logs-max:10 dir:/Users/thom/.config/runebook/hermit/.hermit/node/cache/_logs/2025-09-20T13_52_50_567Z-
+10 verbose logfile /Users/thom/.config/runebook/hermit/.hermit/node/cache/_logs/2025-09-20T13_52_50_567Z-debug-0.log
+11 verbose cwd /Users/thom/.config/runebook/hermit
+12 verbose os Darwin 25.0.0
+13 verbose node v20.19.5
+14 verbose npm  v10.8.2
+15 verbose exit 0
+16 info ok

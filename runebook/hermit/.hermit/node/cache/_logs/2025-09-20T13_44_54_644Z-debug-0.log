@@ -1,0 +1,61 @@
+0 verbose cli /Users/thom/.config/runebook/hermit/cache/pkg/node@lts/bin/node /Users/thom/.config/runebook/hermit/cache/pkg/node@lts/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.19.5
+3 silly config load:file:/Users/thom/.config/runebook/hermit/cache/pkg/node@lts/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/thom/.config/runebook/hermit/.npmrc
+5 silly config load:file:/Users/thom/.npmrc
+6 silly config load:file:/Users/thom/.config/runebook/hermit/.hermit/node/etc/npmrc
+7 verbose title npm exec @playwright/mcp@latest
+8 verbose argv "exec" "--yes" "--" "@playwright/mcp@latest"
+9 verbose logfile logs-max:10 dir:/Users/thom/.config/runebook/hermit/.hermit/node/cache/_logs/2025-09-20T13_44_54_644Z-
+10 verbose logfile /Users/thom/.config/runebook/hermit/.hermit/node/cache/_logs/2025-09-20T13_44_54_644Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 http fetch GET 200 https://registry.npmjs.org/@playwright%2fmcp 314ms (cache miss)
+14 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+15 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+16 silly idealTree buildDeps
+17 silly fetch manifest @playwright/mcp@0.0.39
+18 silly packumentCache full:https://registry.npmjs.org/@playwright%2fmcp cache-miss
+19 http fetch GET 200 https://registry.npmjs.org/npm 359ms
+20 http fetch GET 200 https://registry.npmjs.org/@playwright%2fmcp 71ms (cache miss)
+21 silly packumentCache full:https://registry.npmjs.org/@playwright%2fmcp set size:undefined disposed:false
+22 silly placeDep ROOT @playwright/mcp@0.0.39 OK for:  want: 0.0.39
+23 silly fetch manifest playwright@1.56.0-alpha-1758292576000
+24 silly packumentCache full:https://registry.npmjs.org/playwright cache-miss
+25 silly fetch manifest playwright-core@1.56.0-alpha-1758292576000
+26 silly packumentCache full:https://registry.npmjs.org/playwright-core cache-miss
+27 http fetch GET 200 https://registry.npmjs.org/playwright 265ms (cache miss)
+28 silly packumentCache full:https://registry.npmjs.org/playwright set size:undefined disposed:false
+29 http fetch GET 200 https://registry.npmjs.org/playwright-core 352ms (cache miss)
+30 silly packumentCache full:https://registry.npmjs.org/playwright-core set size:undefined disposed:false
+31 silly placeDep ROOT playwright@1.56.0-alpha-1758292576000 OK for: @playwright/mcp@0.0.39 want: 1.56.0-alpha-1758292576000
+32 silly placeDep ROOT playwright-core@1.56.0-alpha-1758292576000 OK for: @playwright/mcp@0.0.39 want: 1.56.0-alpha-1758292576000
+33 silly fetch manifest fsevents@2.3.2
+34 silly packumentCache full:https://registry.npmjs.org/fsevents cache-miss
+35 http fetch GET 200 https://registry.npmjs.org/fsevents 60ms (cache miss)
+36 silly packumentCache full:https://registry.npmjs.org/fsevents set size:undefined disposed:false
+37 silly placeDep ROOT fsevents@2.3.2 OK for: playwright@1.56.0-alpha-1758292576000 want: 2.3.2
+38 silly reify moves {}
+39 silly audit bulk request {
+39 silly audit   '@playwright/mcp': [ '0.0.39' ],
+39 silly audit   playwright: [ '1.56.0-alpha-1758292576000' ],
+39 silly audit   'playwright-core': [ '1.56.0-alpha-1758292576000' ],
+39 silly audit   fsevents: [ '2.3.2' ]
+39 silly audit }
+40 silly tarball no local data for fsevents@https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz. Extracting by manifest.
+41 silly tarball no local data for playwright@https://registry.npmjs.org/playwright/-/playwright-1.56.0-alpha-1758292576000.tgz. Extracting by manifest.
+42 silly tarball no local data for playwright-core@https://registry.npmjs.org/playwright-core/-/playwright-core-1.56.0-alpha-1758292576000.tgz. Extracting by manifest.
+43 silly tarball no local data for @playwright/mcp@https://registry.npmjs.org/@playwright/mcp/-/mcp-0.0.39.tgz. Extracting by manifest.
+44 http fetch GET 200 https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz 69ms (cache miss)
+45 http fetch GET 200 https://registry.npmjs.org/playwright/-/playwright-1.56.0-alpha-1758292576000.tgz 216ms (cache miss)
+46 http fetch GET 200 https://registry.npmjs.org/@playwright/mcp/-/mcp-0.0.39.tgz 224ms (cache miss)
+47 http fetch GET 200 https://registry.npmjs.org/playwright-core/-/playwright-core-1.56.0-alpha-1758292576000.tgz 236ms (cache miss)
+48 info run fsevents@2.3.2 install node_modules/fsevents node-gyp rebuild
+49 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 632ms
+50 silly audit report {}
+51 info run fsevents@2.3.2 install { code: 1, signal: null }
+52 verbose reify failed optional dependency /Users/thom/.config/runebook/hermit/.hermit/node/cache/_npx/9833c18b2d85bc59/node_modules/fsevents
+53 silly reify mark deleted [
+53 silly reify   '/Users/thom/.config/runebook/hermit/.hermit/node/cache/_npx/9833c18b2d85bc59/node_modules/fsevents'
+53 silly reify ]

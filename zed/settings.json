@@ -7,6 +7,13 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent": {
+    "single_file_review": false,
+    "enable_feedback": false,
+    "always_allow_tool_actions": false,
+    "model_parameters": []
+  },
+  "disable_ai": true,
   "icon_theme": "Catppuccin Mocha",
   "theme": "Catppuccin Mocha (red)",
   "buffer_font_family": "Comic Code Ligatures",
