@@ -203,15 +203,6 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-05-27T12:07:26.415Z",
       "updatedAt": "2026-05-27T12:07:26.415Z"
-    },
-    "deploy-to-vercel": {
-      "source": "vercel-labs/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
-      "skillPath": "skills/deploy-to-vercel/SKILL.md",
-      "skillFolderHash": "1378aa506439f26c809dbcfc61515cbd70f93d69",
-      "installedAt": "2026-05-31T13:43:50.896Z",
-      "updatedAt": "2026-05-31T13:43:50.896Z"
     }
   },
   "dismissed": {
