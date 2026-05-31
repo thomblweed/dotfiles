@@ -66,16 +66,8 @@ npm test -- --run
 
 Fix any failures before continuing.
 
-Also run:
-```bash
-npm run typecheck
-```
-
-Fix any type errors introduced by the test files.
-
 ### PHASE_3_CHECKPOINT
 - [ ] All new/modified tests pass
-- [ ] `npm run typecheck` passes
 
 ---
 

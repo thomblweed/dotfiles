@@ -68,13 +68,9 @@ Rules:
 - Do not write unit tests. Skip any test-related steps mentioned in the plan.
 - Do not add features, refactor, or introduce abstractions beyond what the plan requires.
 - Follow the existing patterns and conventions in the codebase.
-- After making changes, run `npm run lint` and `npm run typecheck` to verify correctness. Fix any errors before continuing.
-
 ### PHASE_4_CHECKPOINT
 - [ ] All plan tasks implemented (excluding tests)
 - [ ] ADR decisions respected
-- [ ] `npm run lint` passes
-- [ ] `npm run typecheck` passes
 
 ---
 

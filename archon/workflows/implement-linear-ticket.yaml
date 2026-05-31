@@ -13,10 +13,169 @@ nodes:
     model: opus
     depends_on: [validate-ticket]
 
+  - id: lint-typecheck-format
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [implement-ticket]
+
   - id: unit-tests
     command: implement-unit-tests
     context: fresh
     model: opus
-    depends_on: [implement-ticket]
+    depends_on: [lint-typecheck-format]
     skills:
       - vitest-unit-tests
+
+  - id: lint-typecheck-format-post-tests
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [unit-tests]
+
+  - id: request-code-review
+    command: request-code-review
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-tests]
+    skills:
+      - requesting-code-review
+
+  - id: fix-review-issues
+    command: fix-review-issues
+    context: fresh
+    model: opus
+    depends_on: [request-code-review]
+
+  - id: lint-typecheck-format-post-review
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [fix-review-issues]
+
+  - id: unit-tests-post-review
+    command: implement-unit-tests
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-review]
+    skills:
+      - vitest-unit-tests
+
+  - id: lint-typecheck-format-final
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [unit-tests-post-review]
+
+  - id: commit-and-create-pr
+    command: commit-and-create-pr
+    context: fresh
+    model: haiku
+    depends_on: [lint-typecheck-format-final]
+
+  - id: trigger-claude-pr-review
+    command: trigger-claude-pr-review
+    context: fresh
+    model: haiku
+    depends_on: [commit-and-create-pr]
+
+  - id: wait-for-claude-pr-review
+    loop:
+      prompt: |
+        You are in a FRESH session waiting for the Claude Code Action to complete its PR review.
+
+        Read the trigger timestamp from "$ARTIFACTS_DIR/review-trigger-time.txt", then check
+        for any comments from `github-actions[bot]` on the current branch's PR that were posted
+        after that time.
+
+        If a review is present, summarise the findings.
+        If not yet complete, report how long we've been waiting.
+
+        When the review is found, output: <promise>REVIEW_COMPLETE</promise>
+      until: REVIEW_COMPLETE
+      until_bash: "TRIGGER_TIME=$(cat \"$ARTIFACTS_DIR/review-trigger-time.txt\" 2>/dev/null || echo \"1970-01-01T00:00:00Z\"); sleep 60 && gh pr view --json comments --jq --arg after \"$TRIGGER_TIME\" '[.comments[] | select(.author.login == \"github-actions[bot]\" and .createdAt > $after) | .body] | join(\"\n\")' | grep -qi 'review\\|suggestion\\|lgtm\\|looks good\\|approve'"
+      max_iterations: 15
+      fresh_context: true
+    depends_on: [trigger-claude-pr-review]
+
+  - id: fetch-review-comments
+    bash: |
+      TRIGGER_TIME=$(cat "$ARTIFACTS_DIR/review-trigger-time.txt" 2>/dev/null || echo "1970-01-01T00:00:00Z")
+      gh pr view --json comments \
+        --jq --arg after "$TRIGGER_TIME" \
+        '[.comments[] | select(.author.login == "github-actions[bot]" and .createdAt > $after) | .body] | join("\n\n---\n\n")'
+    depends_on: [wait-for-claude-pr-review]
+
+  - id: classify-review-comments
+    prompt: |
+      You are triaging automated PR review output to identify actionable issues that require code changes.
+
+      PR review comments:
+      $fetch-review-comments.output
+
+      Identify every distinct issue that is: critical, important, a bug, a security vulnerability,
+      a correctness problem, or explicitly marked as high-priority or urgent.
+      Exclude: style nitpicks, optional suggestions, informational notes, anything marked as minor/nit/optional.
+
+      Each entry in "comments" must be self-contained — include enough context (file, function, description)
+      for an agent working in isolation to understand exactly what needs fixing without reading the full review.
+
+      Return ONLY valid JSON — no prose, no markdown fences.
+    model: haiku
+    allowed_tools: []
+    output_format:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of critical/important issues requiring fixes
+        comments:
+          type: array
+          description: One self-contained issue description per entry
+          items:
+            type: string
+      required: [count, comments]
+    depends_on: [fetch-review-comments]
+
+  - id: no-critical-issues
+    cancel: "No critical or important issues found in the PR review — no fixes required."
+    when: "$classify-review-comments.output.count == '0'"
+    depends_on: [classify-review-comments]
+
+  - id: fan-out-fixes
+    bash: |
+      set -e
+      COMMENTS_JSON=$classify-review-comments.output
+      COUNT=$(echo "$COMMENTS_JSON" | jq -r '.count')
+      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+      echo "Found $COUNT critical issue(s). Spawning $COUNT fix workers from branch: $CURRENT_BRANCH"
+      echo "$COMMENTS_JSON" > "$ARTIFACTS_DIR/critical-comments.json"
+
+      pids=()
+      i=0
+      while [ "$i" -lt "$COUNT" ]; do
+        COMMENT=$(echo "$COMMENTS_JSON" | jq -r ".comments[$i]")
+        BRANCH="fix/review-comment-${i}-$$"
+        echo "[$i] Spawning worker on branch: $BRANCH"
+        archon workflow run fix-single-pr-comment \
+          --branch "$BRANCH" \
+          --from "$CURRENT_BRANCH" \
+          "$COMMENT" &
+        pids+=($!)
+        i=$((i + 1))
+      done
+
+      echo "Waiting for all $COUNT workers to complete..."
+      failed=0
+      for pid in "${pids[@]}"; do
+        wait "$pid" || failed=$((failed + 1))
+      done
+
+      if [ "$failed" -gt 0 ]; then
+        echo "ERROR: $failed of $COUNT worker(s) failed — check individual branch logs."
+        exit 1
+      fi
+      echo "All $COUNT fix workers completed successfully."
+    when: "$classify-review-comments.output.count > '0'"
+    depends_on: [classify-review-comments]

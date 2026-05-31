@@ -1,0 +1,35 @@
+name: fix-single-pr-comment
+description: Fixes a single critical PR review comment in an isolated worktree branch, then commits and pushes.
+provider: claude
+
+nodes:
+  - id: fix-comment
+    command: fix-single-pr-comment
+    model: opus
+    context: fresh
+
+  - id: lint-typecheck
+    command: lint-typecheck-format
+    model: haiku
+    context: fresh
+    depends_on: [fix-comment]
+
+  - id: unit-tests
+    command: implement-unit-tests
+    model: opus
+    context: fresh
+    depends_on: [lint-typecheck]
+    skills:
+      - vitest-unit-tests
+
+  - id: lint-typecheck-post-tests
+    command: lint-typecheck-format
+    model: haiku
+    context: fresh
+    depends_on: [unit-tests]
+
+  - id: commit-and-create-pr
+    command: commit-and-create-pr
+    model: haiku
+    context: fresh
+    depends_on: [lint-typecheck-post-tests]
