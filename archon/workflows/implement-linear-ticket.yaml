@@ -1,0 +1,22 @@
+name: implement-linear-ticket
+description: Implements a Linear ticket end-to-end
+provider: claude
+
+nodes:
+  - id: validate-ticket
+    command: fetch-and-validate-linear-ticket
+    model: haiku
+
+  - id: implement-ticket
+    command: implement-linear-ticket
+    context: fresh
+    model: opus
+    depends_on: [validate-ticket]
+
+  - id: unit-tests
+    command: implement-unit-tests
+    context: fresh
+    model: opus
+    depends_on: [implement-ticket]
+    skills:
+      - vitest-unit-tests

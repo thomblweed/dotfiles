@@ -1,0 +1,211 @@
+{
+  "version": 3,
+  "skills": {
+    "grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/grill-me/SKILL.md",
+      "skillFolderHash": "2a1ad17028306ebe45f0e49703fa28b9b2e7f499",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-06T11:53:51.197Z",
+      "updatedAt": "2026-05-06T11:53:51.197Z"
+    },
+    "improve-codebase-architecture": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
+      "skillFolderHash": "3ad8fa787b3b9b622d1f5a3d0afc27812ac782fa",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-06T12:33:01.820Z",
+      "updatedAt": "2026-05-06T12:33:01.820Z"
+    },
+    "accessibility": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/addyosmani/web-quality-skills.git",
+      "skillPath": "skills/accessibility/SKILL.md",
+      "skillFolderHash": "abdb452337317f5840e4298e46ad07663342dbe8",
+      "installedAt": "2026-05-07T13:01:35.372Z",
+      "updatedAt": "2026-05-07T13:01:35.372Z"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "skillFolderHash": "bf90d0a4b83ea054653350f9c67f6de235d3a368",
+      "installedAt": "2026-05-07T17:45:16.264Z",
+      "updatedAt": "2026-05-07T17:45:16.264Z"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
+      "installedAt": "2026-05-07T17:46:25.614Z",
+      "updatedAt": "2026-05-07T17:46:25.614Z"
+    },
+    "tanstack-query": {
+      "source": "tanstack-skills/tanstack-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
+      "skillPath": "plugins/tanstack-query/skills/tanstack-query/SKILL.md",
+      "skillFolderHash": "50fdcfbff89fba75fd5c2be42701b907d185abeb",
+      "installedAt": "2026-05-08T14:00:28.386Z",
+      "updatedAt": "2026-05-08T14:00:28.386Z"
+    },
+    "tanstack-table": {
+      "source": "tanstack-skills/tanstack-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
+      "skillPath": "plugins/tanstack-table/skills/tanstack-table/SKILL.md",
+      "skillFolderHash": "dc0227e127c47b7f4a192f30594bd7b4f2140a48",
+      "installedAt": "2026-05-08T14:00:50.847Z",
+      "updatedAt": "2026-05-08T14:00:50.847Z"
+    },
+    "tanstack-form": {
+      "source": "tanstack-skills/tanstack-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
+      "skillPath": "plugins/tanstack-form/skills/tanstack-form/SKILL.md",
+      "skillFolderHash": "065d5e98a46cee7820b69a918e3e832b93bab499",
+      "installedAt": "2026-05-08T14:01:04.859Z",
+      "updatedAt": "2026-05-08T14:01:04.859Z"
+    },
+    "write-a-skill": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/write-a-skill/SKILL.md",
+      "skillFolderHash": "2f252b35aa238879afc5a230ac30343708dee0b3",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-08T14:15:12.519Z",
+      "updatedAt": "2026-05-08T14:15:12.519Z"
+    },
+    "grill-with-docs": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
+      "skillFolderHash": "2969a1224c70fe41b9dd2ddbe32c2ec62f2815bd",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-08T14:17:55.448Z",
+      "updatedAt": "2026-05-08T14:17:55.448Z"
+    },
+    "bulletproof-react-patterns": {
+      "source": "grahamcrackers/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/grahamcrackers/skills.git",
+      "skillPath": "skills/bulletproof-react-patterns/SKILL.md",
+      "skillFolderHash": "b36f126e1b7daf97c6e2ce71f3bf2ee55f317380",
+      "installedAt": "2026-05-08T15:33:57.842Z",
+      "updatedAt": "2026-05-08T15:33:57.842Z"
+    },
+    "requesting-code-review": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/superpowers.git",
+      "skillPath": "skills/requesting-code-review/SKILL.md",
+      "skillFolderHash": "ff419ec159bdf5ff2f2d83c7e544c586bcde69bb",
+      "installedAt": "2026-05-11T07:31:53.450Z",
+      "updatedAt": "2026-05-11T07:31:53.450Z"
+    },
+    "zustand-advanced-patterns": {
+      "source": "thebushidocollective/han",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/thebushidocollective/han.git",
+      "skillPath": "plugins/frameworks/zustand/skills/zustand-advanced-patterns/SKILL.md",
+      "skillFolderHash": "538cd6ab8253684ffb0b445206679b3828bf6a31",
+      "installedAt": "2026-05-20T07:00:41.115Z",
+      "updatedAt": "2026-05-20T07:00:41.115Z"
+    },
+    "figma-code-connect": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-code-connect/SKILL.md",
+      "skillFolderHash": "ceacae69bacffcba219584d2f1459bd14bc27fc9",
+      "installedAt": "2026-05-20T19:43:47.257Z",
+      "updatedAt": "2026-05-20T19:43:47.257Z"
+    },
+    "figma-create-new-file": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-create-new-file/SKILL.md",
+      "skillFolderHash": "53b9fcd422e12aab188f7fa4187e27d483a88864",
+      "installedAt": "2026-05-20T19:43:47.259Z",
+      "updatedAt": "2026-05-20T19:43:47.259Z"
+    },
+    "figma-generate-design": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-generate-design/SKILL.md",
+      "skillFolderHash": "6a57e78f5b88e9e2f3d3df986d9b5d9caf0dbe09",
+      "installedAt": "2026-05-20T19:43:47.260Z",
+      "updatedAt": "2026-05-20T19:43:47.260Z"
+    },
+    "figma-generate-diagram": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-generate-diagram/SKILL.md",
+      "skillFolderHash": "902059fdda1c15c89aeb402d7032c4f1520680e3",
+      "installedAt": "2026-05-20T19:43:47.261Z",
+      "updatedAt": "2026-05-20T19:43:47.261Z"
+    },
+    "figma-generate-library": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-generate-library/SKILL.md",
+      "skillFolderHash": "8a0f5eb490cca9fe239099732f349ff2cdd6eb8f",
+      "installedAt": "2026-05-20T19:43:47.261Z",
+      "updatedAt": "2026-05-20T19:43:47.261Z"
+    },
+    "figma-use": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-use/SKILL.md",
+      "skillFolderHash": "7bcfc8d0487f5252ed33267d03a2a100dd8fbedb",
+      "installedAt": "2026-05-20T19:43:47.262Z",
+      "updatedAt": "2026-05-20T19:43:47.262Z"
+    },
+    "figma-use-figjam": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-use-figjam/SKILL.md",
+      "skillFolderHash": "b5883a63ae54a51b5ccd7d6ff8afd36bbd532203",
+      "installedAt": "2026-05-20T19:43:47.262Z",
+      "updatedAt": "2026-05-20T19:43:47.262Z"
+    },
+    "figma-use-slides": {
+      "source": "figma/mcp-server-guide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/figma/mcp-server-guide.git",
+      "skillPath": "skills/figma-use-slides/SKILL.md",
+      "skillFolderHash": "c52bb016b7727ee95ba44df1827956718b5fa3c9",
+      "installedAt": "2026-05-20T19:43:47.263Z",
+      "updatedAt": "2026-05-20T19:43:47.263Z"
+    },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "skillFolderHash": "7bbb60d64c911617cee7f71b2ba9e24364faa14e",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-27T12:07:26.415Z",
+      "updatedAt": "2026-05-27T12:07:26.415Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  }
+}
