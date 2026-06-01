@@ -1,6 +1,7 @@
 ---
 description: Fetch a Linear ticket via MCP and validate it is ready to implement (has exactly one plan file attached).
 argument-hint: <ticket-id-or-url>
+allowed-tools: Bash, Write, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__get_attachment
 ---
 
 # Step 1: Fetch and Validate Linear Ticket
@@ -21,59 +22,102 @@ Parse `$ARGUMENTS` to extract the ticket ID:
 
 ## Phase 2: FETCH TICKET
 
-Use the Linear MCP tools to:
+Use `mcp__claude_ai_Linear__get_issue` to fetch the ticket:
 
-1. Fetch the full ticket: id, title, description, status.
-2. List all attachments on the ticket (name and URL for each).
+- Input: `{ "id": "<ticket-id>" }` where `<ticket-id>` is from Phase 1.
+- Extract from the response: `id`, `title`, `description`, `status`, `gitBranchName`, and the full `attachments` array.
 
-If the Linear MCP tools are unavailable or the ticket cannot be found,
-stop immediately and report the error clearly.
+If the tool is unavailable or the ticket is not found, stop immediately and report the error clearly.
 
 ### PHASE_2_CHECKPOINT
-- [ ] Ticket details fetched (id, title, description, status)
-- [ ] All attachments listed with name + URL
+- [ ] Ticket details fetched (id, title, description, status, gitBranchName, attachments)
 
 ---
 
 ## Phase 3: VALIDATE ATTACHMENTS
 
-Classify each attachment:
+Inspect the `attachments` array returned in Phase 2. Each attachment has `id`, `title`, and `url`.
 
-- **Plan file**: filename contains "plan" (case-insensitive), e.g. `OBS-123-plan.md`
-- **ADR file**: filename contains "adr" (case-insensitive), e.g. `OBS-123-adr.md`
+Classify each attachment by its title:
 
-**If no plan files found**, stop and output:
+- **Plan file**: title contains "plan" (case-insensitive), e.g. `OBS-123-plan.md`
+- **ADR file**: title contains "adr" (case-insensitive), e.g. `OBS-123-adr.md`
+
+**If no plan files found**, your final response MUST be exactly this JSON (no prose, no fences):
+
 ```
-ERROR: No plan file found on ticket <ticket-id>.
-Attach a plan file (filename must contain "plan") before running this workflow.
+{ "ready": "false", "error": "No plan file found on ticket <ticket-id>. Attach a plan file (filename must contain \"plan\") before running this workflow." }
 ```
 
-**If more than one plan file found**, stop and output:
-```
-ERROR: Multiple plan files found on ticket <ticket-id>.
-Remove the extra plan attachments from the ticket, leaving only the one to implement.
+Also write this JSON to `$ARTIFACTS_DIR/validate-status.json`. Then **stop — do not proceed to Phase 4 or beyond**.
 
-Available plans:
-  - <name1>
-  - <name2>
-  ...
+**If more than one plan file found**, your final response MUST be exactly this JSON (no prose, no fences):
+
 ```
+{ "ready": "false", "error": "Multiple plan files found on ticket <ticket-id>: <name1>, <name2>. Remove the extra attachments, leaving only the one to implement." }
+```
+
+Also write this JSON to `$ARTIFACTS_DIR/validate-status.json`. Then **stop — do not proceed to Phase 4 or beyond**.
 
 ### PHASE_3_CHECKPOINT
 - [ ] Exactly one plan file confirmed present
 
 ---
 
-## Phase 4: REPORT
+## Phase 4: FETCH AND PERSIST ATTACHMENT CONTENT
 
-Print a summary:
+Use `mcp__claude_ai_Linear__get_attachment` with the plan attachment's `id` to retrieve its content, then write it to `$ARTIFACTS_DIR/plan.md`.
+
+```bash
+mkdir -p "$ARTIFACTS_DIR"
+```
+
+If an ADR file is present, fetch it the same way and write it to `$ARTIFACTS_DIR/adr.md`.
+
+### PHASE_4_CHECKPOINT
+- [ ] Plan file content written to `$ARTIFACTS_DIR/plan.md`
+- [ ] ADR file content written to `$ARTIFACTS_DIR/adr.md` (if present)
+
+---
+
+## Phase 5: RENAME BRANCH
+
+After fetching the ticket, rename the current branch to match the project naming convention
+(`<ticket-id-lowercase>/<normalized-title>`) so that downstream steps (commit, PR creation)
+can correctly extract the Linear ticket ID.
+
+Steps:
+1. Get the current branch name: `git branch --show-current`
+2. If the branch name starts with `archon/`, strip that prefix and rename:
+   - Example: `archon/obs-123-add-loading-screen` → `obs-123-add-loading-screen`
+   - Run: `git branch -m <new-name>`
+3. If the branch does **not** start with `archon/`, leave it unchanged.
+
+### PHASE_5_CHECKPOINT
+- [ ] Branch renamed to `<ticket-id>/<slug>` format (or confirmed already correctly named)
+
+---
+
+## Phase 6: REPORT
+
+Write the success status to `$ARTIFACTS_DIR/validate-status.json`:
+```json
+{ "ready": "true", "error": "" }
+```
+
+Then print a human-readable summary:
 
 ```
 Ticket:      <id> — <title> (<status>)
-Plan file:   <plan filename>
-ADR file:    <adr filename>  (or "none")
+Plan file:   <plan filename> → written to $ARTIFACTS_DIR/plan.md
+ADR file:    <adr filename> → written to $ARTIFACTS_DIR/adr.md  (or "none")
+Branch:      <branch name>
 
 Ready to implement.
 ```
 
-If any ADR files are present, list them (they will be picked up by the implement step).
+Your final output MUST be exactly this JSON (no prose, no fences) — the workflow reads this to decide whether to continue:
+
+```
+{ "ready": "true", "error": "" }
+```

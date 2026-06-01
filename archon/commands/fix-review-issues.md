@@ -14,6 +14,20 @@ $request-code-review.output
 
 ---
 
+## Phase 0: VALIDATE INPUT
+
+Check that the review report above is non-empty and contains actual content (not just whitespace or an unfilled variable placeholder).
+
+If the report is empty or contains only the literal text `$request-code-review.output`, stop immediately and print:
+
+```
+ERROR: No review report available. The request-code-review step must run and produce output before this step can execute.
+```
+
+Then stop — do not proceed to Phase 1.
+
+---
+
 ## Phase 1: TRIAGE
 
 Parse the review report above. Extract all **Critical** and **Important** issues.

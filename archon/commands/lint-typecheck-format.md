@@ -1,8 +1,8 @@
 ---
-description: Run lint, typecheck, and format checks then fix any issues found.
+description: Run lint and typecheck then fix any issues found.
 ---
 
-# Lint, Typecheck, and Format
+# Lint and Typecheck
 
 **Workflow ID**: $WORKFLOW_ID
 
@@ -26,12 +26,6 @@ npm run typecheck
 
 Fix all type errors reported. Re-run until clean.
 
-## Step 3: Format
-
-```bash
-npm run format
-```
-
 ---
 
 ## Report
@@ -39,5 +33,4 @@ npm run format
 ```
 lint:       passing
 typecheck:  passing
-format:     passing
 ```

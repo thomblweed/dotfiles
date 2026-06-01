@@ -1,6 +1,6 @@
 ---
 description: Commit changes with conventional commits and create a PR into develop.
-allowed-tools: Bash, Read, Glob, Grep, mcp__linear-server__get_issue
+allowed-tools: Bash, Read, Glob, Grep, mcp__linear-server__linear_search_issues_by_identifier
 ---
 
 # Commit and Create PR
@@ -24,7 +24,7 @@ git branch --show-current
 
 Extract the Linear ticket ID from the branch name (e.g., `ui-51/molecule-loadingscreen-new-component` → `UI-51`).
 
-Then fetch the Linear ticket details for context using `mcp__linear-server__get_issue`.
+Then fetch the Linear ticket details for context using `mcp__linear-server__linear_search_issues_by_identifier` with input `{ "identifier": "<TICKET-ID>" }`.
 
 ## Step 2: Analyze Git Changes
 
