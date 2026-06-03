@@ -80,25 +80,7 @@ If an ADR file is present, fetch it the same way and write it to `$ARTIFACTS_DIR
 
 ---
 
-## Phase 5: RENAME BRANCH
-
-After fetching the ticket, rename the current branch to match the project naming convention
-(`<ticket-id-lowercase>/<normalized-title>`) so that downstream steps (commit, PR creation)
-can correctly extract the Linear ticket ID.
-
-Steps:
-1. Get the current branch name: `git branch --show-current`
-2. If the branch name starts with `archon/`, strip that prefix and rename:
-   - Example: `archon/obs-123-add-loading-screen` → `obs-123-add-loading-screen`
-   - Run: `git branch -m <new-name>`
-3. If the branch does **not** start with `archon/`, leave it unchanged.
-
-### PHASE_5_CHECKPOINT
-- [ ] Branch renamed to `<ticket-id>/<slug>` format (or confirmed already correctly named)
-
----
-
-## Phase 6: REPORT
+## Phase 5: REPORT
 
 Write the success status to `$ARTIFACTS_DIR/validate-status.json`:
 ```json

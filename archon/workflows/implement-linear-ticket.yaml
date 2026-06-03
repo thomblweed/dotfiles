@@ -21,11 +21,17 @@ nodes:
     depends_on: [validate-ticket]
     when: "$validate-ticket.output.ready != 'true'"
 
+  - id: strip-archon-branch-prefix
+    command: strip-archon-branch-prefix
+    model: haiku
+    depends_on: [validate-ticket]
+    when: "$validate-ticket.output.ready == 'true'"
+
   - id: implement-ticket
     command: implement-linear-ticket
     context: fresh
     model: opus
-    depends_on: [validate-ticket]
+    depends_on: [strip-archon-branch-prefix]
     when: "$validate-ticket.output.ready == 'true'"
 
   - id: lint-typecheck-format
@@ -141,15 +147,19 @@ nodes:
       Strong include signals (treat as actionable):
         - Headings/labels: **Critical**, **Important**, **Bug**, **Security**, **Must fix**, **Blocker**
         - Emojis: 🔴, 🛑, ❌, ⚠️ (when paired with a concrete defect, not a checklist mark)
+        - Emojis: 🟡, 🟠, 🔶, 🔸, ⚡ (amber/yellow signals — include even if labelled "minor"; these warrant fixes)
         - Phrases: "this will break", "incorrect", "race condition", "memory leak", "unhandled"
 
+      Note: issues labelled **Minor** are still worth fixing if they are paired with an amber/yellow
+      emoji or describe a concrete defect. Do not skip them solely because of the "minor" label.
+
       Strong exclude signals (skip these):
-        - Headings/labels: **Nit**, **Minor**, **Optional**, **Style**, **Suggestion**, **Consider**, **FYI**
+        - Headings/labels: **Nit**, **Optional**, **Style**, **Suggestion**, **Consider**, **FYI**
         - Phrases: "could also", "you might", "consider", "nice to have", "in a follow-up"
         - Approval language with no defect: "looks good", "LGTM", "recommended for merge"
 
-      If the review explicitly states it is approved / recommended for merge AND lists only nits/minor
-      suggestions, return count "0".
+      If the review explicitly states it is approved / recommended for merge AND lists only nits/style
+      suggestions with no amber/yellow signals, return count "0".
 
       Each entry in "comments" must be self-contained — include enough context (file, function, description)
       for an agent working in isolation to understand exactly what needs fixing without reading the full review.
@@ -170,11 +180,6 @@ nodes:
             type: string
       required: [count, comments]
     depends_on: [fetch-review-comments]
-
-  - id: no-critical-issues
-    cancel: "No critical or important issues found in the PR review — no fixes required."
-    when: "$classify-review-comments.output.count == '0'"
-    depends_on: [classify-review-comments]
 
   - id: apply-pr-review-fixes
     prompt: |
