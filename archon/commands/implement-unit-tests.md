@@ -34,6 +34,7 @@ Follow the vitest-unit-tests skill conventions precisely:
 - Test behavior from the user's perspective — not implementation details.
 - Default to zero `vi.mock` calls. Only mock when rendering actually fails and you've isolated the failure to a specific module.
 - Use `userEvent` over `fireEvent`.
+- No top-level `describe('<ComponentName>')` wrapper — the file name identifies the component. Start the file directly with `it()` or `describe('when ...')`. Only add a top-level `describe` when a shared `beforeEach`/`afterEach` must scope to a subset of tests.
 - Use BDD naming: flat `it()` for one outcome, `describe('when ...')` wrapping multiple `it()` for the same condition.
 - Use `getByRole` first; fall back to `getByLabelText`, `getByText`, `getByTestId` in that order.
 - Write all tests in TypeScript — no `any`.

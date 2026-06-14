@@ -1,0 +1,63 @@
+name: implement-linear-ticket-review-only
+description: Implements a Linear ticket through to code review (no commit/PR)
+provider: claude
+
+nodes:
+  - id: validate-ticket
+    command: fetch-and-validate-linear-ticket
+    model: haiku
+    output_format:
+      type: object
+      properties:
+        ready:
+          type: string
+          enum: ["true", "false"]
+        error:
+          type: string
+      required: [ready]
+
+  - id: cancel-if-not-ready
+    cancel: "Ticket validation failed — see error above. Attach a plan file before running this workflow."
+    depends_on: [validate-ticket]
+    when: "$validate-ticket.output.ready != 'true'"
+
+  - id: strip-archon-branch-prefix
+    command: strip-archon-branch-prefix
+    model: haiku
+    depends_on: [validate-ticket]
+    when: "$validate-ticket.output.ready == 'true'"
+
+  - id: implement-ticket
+    command: implement-linear-ticket
+    context: fresh
+    model: opus
+    depends_on: [strip-archon-branch-prefix]
+    when: "$validate-ticket.output.ready == 'true'"
+
+  - id: lint-typecheck-format
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [implement-ticket]
+
+  - id: unit-tests
+    command: implement-unit-tests
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format]
+    skills:
+      - vitest-unit-tests
+
+  - id: lint-typecheck-format-post-tests
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [unit-tests]
+
+  - id: request-code-review
+    command: request-code-review
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-tests]
+    skills:
+      - requesting-code-review

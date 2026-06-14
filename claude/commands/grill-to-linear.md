@@ -11,6 +11,17 @@ Runs a `/grill-with-docs` session to stress-test a plan, then attaches all sessi
 
 Ask the user to describe the plan or idea they want to grill. **Check whether they reference an existing Linear ticket** (e.g. "grill on NBL-123" or "for ticket NBL-456"). If so, note that ticket ID — it determines the flow from Step 4 onward.
 
+**Then ask which kind of ticket description to write:**
+
+```
+What kind of ticket are we creating?
+  T — Task / horizontal: technical description (Context + Key decisions)
+  G — User Gherkin: user-facing acceptance criteria as Gherkin
+      (Feature / Scenario / Given–When–Then)
+```
+
+Note the choice — it selects the description template in **Step 5B** and nothing else. The grill session, plan file, ADRs, and attachments are identical for both. If the session referenced an **existing** ticket (Step 5A), the description is not modified, so this question can be skipped.
+
 Invoke the `grill-with-docs` skill with the user's description and run the session to completion — until a fully agreed approach with no unresolved decisions is reached.
 
 ## Step 2: Write session files
@@ -98,11 +109,13 @@ Wait for their response before continuing.
 - **Option B:** Use `mcp__claude_ai_Linear__list_projects` to find the project ID; use `mcp__claude_ai_Linear__list_issue_labels` to find label IDs. If labels is "none" or empty, omit them.
 
 **Create the Linear issue** via `mcp__claude_ai_Linear__save_issue` with:
-- **title**: action-oriented, starts with a verb (Add / Implement / Migrate / Refactor)
+- **title**: for a **task/horizontal** ticket, action-oriented starting with a verb (Add / Implement / Migrate / Refactor); for a **user Gherkin** ticket, outcome-oriented describing the user-facing result (e.g. "Build the Credential sets landing page content (empty state)")
 - **project**: resolved project ID
 - **labels**: resolved label IDs (omit if none)
 - **priority**: medium (value: 2)
-- **description**: markdown derived from the plan file:
+- **description**: markdown derived from the plan file, using the template for the ticket type chosen in Step 1:
+
+**Task / horizontal:**
 
 ```markdown
 ## Context
@@ -111,6 +124,31 @@ Wait for their response before continuing.
 ## Key decisions
 <bullet list of the most important decisions from the grill session>
 ```
+
+**User Gherkin** — before writing the Gherkin, **Read `~/dotfiles/claude/references/gherkin-guidelines.md`** (vendored from [AutomationPanda/gherkin-guidelines-for-ai](https://github.com/AutomationPanda/gherkin-guidelines-for-ai)) and follow its authoring rules. The block below is an inline ` ```gherkin ` snippet in the ticket description, not a `.feature` file — so apply the guideline's scenario/step rules (one behaviour per scenario, declarative domain-level steps, strict Given→When→Then, observable `Then` outcomes, realistic example data, step data tables over long `And`-chains) and ignore the file-level rules (kebab-case `.feature` filenames, directory layout).
+
+Translate the agreed user-facing behaviour into one `Feature` with one `Scenario` per distinct behaviour. Keep implementation detail out of the description (it lives in the attached plan); the scenarios describe observable behaviour only:
+
+````markdown
+## Acceptance criteria (Gherkin)
+
+```gherkin
+Feature: <feature name>
+
+  Scenario: <observable behaviour>
+    Given <precondition>
+    When <action>
+    Then <expected outcome>
+    And <additional outcome>
+
+  Scenario: <another observable behaviour>
+    Given <precondition>
+    When <action>
+    Then <expected outcome>
+```
+
+See the attached plan for full implementation detail.
+````
 
 Note the returned issue ID — used to name the attachments. Proceed to **Step 6**.
 
@@ -123,9 +161,9 @@ If the user chose **Replace** in Step 5A, call `mcp__claude_ai_Linear__delete_at
 For each session file (plan file from Step 2 first, then any ADRs created during the grill session in order):
 
 1. Read the file content from its repo path
-2. Derive the attachment title by prefixing the Linear issue ID to the filename:
+2. Derive the attachment title from the Linear issue ID and the file type:
    - plan file → `<issue-id>-<plan-filename>`  (e.g. `NBL-123-0001-plan-use-tanstack-query.md`)
-   - ADR file  → `<issue-id>-<adr-filename>`  (e.g. `NBL-123-0001-use-tanstack-query.md`)
+   - ADR file  → `<issue-id>-adr-<adr-filename>`  (e.g. `NBL-123-adr-0001-use-tanstack-query.md`)
 3. Call `mcp__claude_ai_Linear__prepare_attachment_upload` with the title and MIME type `text/markdown`
 4. Upload the file content to the returned presigned URL:
    ```bash

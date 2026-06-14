@@ -13,7 +13,7 @@ Wait for the user's response, then for each ticket provided:
 
 4. **Construct the archon command** for each ticket:
    ```
-   archon workflow run implement-linear-ticket --branch <branch-name> --from develop "<TICKET-ID>"
+   archon workflow run implement-linear-ticket-review-only --branch <branch-name> --from develop "<TICKET-ID>"
    ```
 
 Once you have all commands ready, print them out so the user can review them, then ask: "Ready to kick off [N] workflow(s). Shall I run them?"
