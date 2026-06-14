@@ -58,7 +58,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "opus[1m]",
   "skillOverrides": {
     "react-rerender-composition": "off",
     "figma-use": "off",
@@ -76,7 +75,7 @@
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "voice": {
     "enabled": true,
     "mode": "hold"

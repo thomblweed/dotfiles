@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DOTFILES="$HOME/dotfiles"
+DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 
 symlink_dir() {
   local src="$DOTFILES/$1"
@@ -23,6 +23,7 @@ symlink_file() {
 
 symlink_dir  "claude/commands"          ".claude/commands"
 symlink_file "claude/settings.json"     ".claude/settings.json"
+symlink_file "claude/statusline-command.sh" ".claude/statusline-command.sh"
 symlink_dir  "archon/commands"          ".archon/commands"
 symlink_dir  "archon/workflows"         ".archon/workflows"
 symlink_file "agents/.skill-lock.json" ".agents/.skill-lock.json"
