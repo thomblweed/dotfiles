@@ -1,7 +1,5 @@
 {
   "extras": [
-    "lazyvim.plugins.extras.vscode",
-    "lazyvim.plugins.extras.formatting.biome",
     "lazyvim.plugins.extras.lang.json",
     "lazyvim.plugins.extras.lang.markdown",
     "lazyvim.plugins.extras.lang.svelte",

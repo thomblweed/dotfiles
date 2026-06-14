@@ -1,3 +1,6 @@
 font-family = "ComicCodeLigatures Nerd Font"
 font-size = 18
 theme = Catppuccin Mocha
+
+keybind = ctrl+h=previous_tab
+keybind = ctrl+l=next_tab

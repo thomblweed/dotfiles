@@ -7,34 +7,26 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "text_rendering_mode": "platform_default",
-  "agent_servers": {
-    "claude-acp": {
-      "default_config_options": {
-        "mode": "acceptEdits"
-      },
-      "type": "registry"
-    }
-  },
   "project_panel": {
-    "dock": "left",
+    "dock": "left"
   },
   "outline_panel": {
-    "dock": "left",
+    "dock": "left"
   },
   "collaboration_panel": {
-    "dock": "left",
+    "dock": "left"
   },
   "git_panel": {
-    "dock": "left",
+    "dock": "left"
   },
   "agent": {
     "dock": "right",
     "single_file_review": false,
     "enable_feedback": false,
-    "model_parameters": [],
+    "always_allow_tool_actions": false,
+    "model_parameters": []
   },
-  "disable_ai": false,
+  "disable_ai": true,
   "icon_theme": "Catppuccin Mocha",
   "theme": "Catppuccin Mocha (red)",
   "buffer_font_family": "Comic Code Ligatures",
@@ -45,11 +37,11 @@
   "ui_font_size": 16,
   "buffer_font_size": 16,
   "vim_mode": true,
-  "relative_line_numbers": "enabled",
+  "relative_line_numbers": true,
   "terminal": {
-    "font_family": "Comic Code Ligatures",
+    "font_family": "Comic Code Ligatures"
   },
   "code_actions_on_format": {
-    "source.fixAll.eslint": true,
-  },
+    "source.fixAll.eslint": true
+  }
 }
