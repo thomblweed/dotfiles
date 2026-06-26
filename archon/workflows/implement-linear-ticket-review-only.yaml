@@ -63,12 +63,6 @@ nodes:
       - vercel-react-best-practices
       - vercel-composition-patterns
 
-  - id: fix-review-issues
-    command: fix-review-issues
-    context: fresh
-    model: opus
-    depends_on: [request-code-review]
-
   - id: check-performance
     command: check-performance
     context: fresh
@@ -77,24 +71,26 @@ nodes:
     skills:
       - react-rerender-composition
 
-  - id: fix-performance-issues
-    command: fix-performance-issues
+  - id: fix-all-issues
+    command: fix-all-issues
     context: fresh
     model: opus
-    depends_on: [check-performance]
+    depends_on: [request-code-review, check-performance]
     skills:
+      - vercel-react-best-practices
+      - vercel-composition-patterns
       - react-rerender-composition
 
-  - id: unit-tests-post-fix-performance-issues
+  - id: unit-tests-post-fixes
     command: implement-unit-tests
     context: fresh
     model: opus
-    depends_on: [fix-performance-issues]
+    depends_on: [fix-all-issues]
     skills:
       - vitest-unit-tests
 
-  - id: lint-typecheck-format-post-performance
+  - id: lint-typecheck-format-post-fixes
     command: lint-typecheck-format
     context: fresh
     model: haiku
-    depends_on: [unit-tests-post-fix-performance-issues]
+    depends_on: [unit-tests-post-fixes]
