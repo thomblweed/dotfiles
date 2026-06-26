@@ -60,4 +60,41 @@ nodes:
     model: opus
     depends_on: [lint-typecheck-format-post-tests]
     skills:
-      - requesting-code-review
+      - vercel-react-best-practices
+      - vercel-composition-patterns
+
+  - id: fix-review-issues
+    command: fix-review-issues
+    context: fresh
+    model: opus
+    depends_on: [request-code-review]
+
+  - id: check-performance
+    command: check-performance
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-tests]
+    skills:
+      - react-rerender-composition
+
+  - id: fix-performance-issues
+    command: fix-performance-issues
+    context: fresh
+    model: opus
+    depends_on: [check-performance]
+    skills:
+      - react-rerender-composition
+
+  - id: unit-tests-post-fix-performance-issues
+    command: implement-unit-tests
+    context: fresh
+    model: opus
+    depends_on: [fix-performance-issues]
+    skills:
+      - vitest-unit-tests
+
+  - id: lint-typecheck-format-post-performance
+    command: lint-typecheck-format
+    context: fresh
+    model: haiku
+    depends_on: [unit-tests-post-fix-performance-issues]
