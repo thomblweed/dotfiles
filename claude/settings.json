@@ -59,7 +59,7 @@
     "defaultMode": "bypassPermissions"
   },
   "skillOverrides": {
-    "react-rerender-composition": "off",
+    "react-rerender-composition": "on",
     "figma-use": "off",
     "figma-use-slides": "off",
     "figma-use-figjam": "off",
@@ -75,7 +75,7 @@
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
-  "effortLevel": "medium",
+  "effortLevel": "xhigh",
   "voice": {
     "enabled": true,
     "mode": "hold"
