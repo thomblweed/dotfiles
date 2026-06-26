@@ -29,25 +29,28 @@ These are the files that need test coverage.
 
 For each changed source file, write or extend its co-located test file (e.g. `Foo.tsx` → `Foo.test.tsx`).
 
-Follow the vitest-unit-tests skill conventions precisely:
+The **`vitest-unit-tests`** skill is preloaded for this node — its `SKILL.md` is
+already in your context and is the **single source of truth** for how these tests
+must be written. Its reference files are **not** preloaded. Before writing anything:
 
-- Test behavior from the user's perspective — not implementation details.
-- Default to zero `vi.mock` calls. Only mock when rendering actually fails and you've isolated the failure to a specific module.
-- Use `userEvent` over `fireEvent`.
-- No top-level `describe('<ComponentName>')` wrapper — the file name identifies the component. Start the file directly with `it()` or `describe('when ...')`. Only add a top-level `describe` when a shared `beforeEach`/`afterEach` must scope to a subset of tests.
-- Use BDD naming: flat `it()` for one outcome, `describe('when ...')` wrapping multiple `it()` for the same condition.
-- Use `getByRole` first; fall back to `getByLabelText`, `getByText`, `getByTestId` in that order.
-- Write all tests in TypeScript — no `any`.
-- Co-locate test files next to the component they test.
-- Wrap providers inline per test — do not extract a shared render helper.
-- For routing, use `MemoryRouter` or `createMemoryRouter` — never mock `useNavigate` or other router hooks.
-- DOM/render test files must be sequential — do not use `describe.concurrent` or `it.concurrent` if the file imports from `@testing-library/*`.
+1. Read `references/file-structure.md` (`renderWithProviders`, `defaultProps`, module-level provider setup, extending tests) and `references/api-mocking.md` (ConnectRPC transport setup, factory patterns, `renderHook` wrappers). These hold conventions that are NOT in the top-level skill and NOT repeated here.
+
+Then follow the skill exactly. Do not rely on memory, on general testing habits, or on a summary — the skill's rules override all of those. The skill (not this command) is authoritative on every convention, including:
+
+- BDD structure: no top-level `describe('<ComponentName>')`, and the `describe('when ...')` rules (minimum two `it()` per block; don't repeat the condition in `it` names).
+- Query priority and using **plain strings** (not regex) for query args.
+- `userEvent` over `fireEvent`, with `const user = userEvent.setup()` once at the top of the file.
+- `vi.mock` policy (default zero) and the component-mocking criteria.
+- Provider setup via a module-scoped `renderWithProviders` helper — do NOT inline providers per test.
+- Routing: `MemoryRouter`/`createMemoryRouter` with sentinel routes; never mock router hooks and never assert on path strings.
+- `beforeEach` vs `afterEach` split, TypeScript (no `any`), co-location, and parallel-execution rules (pure-node files use `describe.concurrent`/`it.concurrent`; DOM/`@testing-library/*` files stay sequential).
 
 Only write tests for functionality introduced on this branch. Do not touch test files for unchanged code.
 
 ### PHASE_2_CHECKPOINT
+- [ ] Both `vitest-unit-tests` reference files read (`file-structure.md`, `api-mocking.md`)
 - [ ] Tests written or extended for every changed source file
-- [ ] All tests follow the skill conventions above
+- [ ] Each test spot-checked against the skill before finishing (provider helper, query strings, BDD structure, routing assertions)
 
 ---
 

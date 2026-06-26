@@ -25,20 +25,28 @@ git diff BASE_SHA..HEAD_SHA
 
 ## How to Review
 
-Review the changed code against **both** of these skills and gather their recommendations:
+Two skills are preloaded for this node — their `SKILL.md` files are already in your
+context and are the **single source of truth** for what counts as a finding:
 
-1. **`vercel-react-best-practices`** — React/Next.js performance rules (eliminating
-   waterfalls, bundle size, server-side performance, client-side data fetching,
-   re-renders, rendering, JS micro-optimizations, advanced patterns).
-2. **`vercel-composition-patterns`** — React composition rules (avoiding boolean
-   prop proliferation, compound components, lifting state, context interfaces,
-   children over render props, explicit variants, React 19 APIs).
+1. **`vercel-react-best-practices`** — React/Next.js performance rules.
+2. **`vercel-composition-patterns`** — React composition rules.
 
-Load each skill, scan the diff for violations of their rules, and record every
-recommendation. Cite the specific rule each suggestion comes from.
+Each `SKILL.md` is only an **index** — it lists rule names by category (e.g.
+`async-parallel`, `rerender-no-inline-components`, `architecture-avoid-boolean-props`).
+The actual rule definitions, with correct/incorrect examples, live in per-rule files
+that are **not** preloaded. Workflow:
+
+1. Scan the diff and shortlist the rule names whose category could plausibly apply.
+2. **Read** each shortlisted rule file before judging it — `rules/<rule-name>.md` in
+   the relevant skill (e.g. `rules/async-parallel.md`). Do not flag a rule from its
+   name alone; confirm against the rule file.
+3. Record every violation, citing the exact rule name it maps to.
+
+Do not rely on memory or a summary of these skills — judge only against the rule
+files you have read.
 
 **This is review-only.** Do NOT edit, fix, or apply any change. The report is for a
-human to review and act on afterwards.
+human (and the downstream fix step) to act on afterwards.
 
 ---
 
