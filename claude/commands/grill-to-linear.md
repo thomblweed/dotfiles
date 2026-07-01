@@ -1,6 +1,6 @@
 ---
 description: Run a grill-with-docs session to stress-test a plan, then create a Linear ticket with all session docs attached.
-allowed-tools: Bash, Read, Write, Edit, mcp__claude_ai_Linear__save_issue, mcp__claude_ai_Linear__prepare_attachment_upload, mcp__claude_ai_Linear__create_attachment_from_upload, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__get_attachment, mcp__claude_ai_Linear__delete_attachment, mcp__claude_ai_Linear__list_projects, mcp__claude_ai_Linear__list_issue_labels
+allowed-tools: Bash, Read, Write, Edit, mcp__claude_ai_Linear__save_issue, mcp__claude_ai_Linear__prepare_attachment_upload, mcp__claude_ai_Linear__create_attachment_from_upload, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__get_attachment, mcp__claude_ai_Linear__delete_attachment, mcp__claude_ai_Linear__list_projects, mcp__claude_ai_Linear__list_issue_labels, mcp__claude_ai_Linear__list_users
 ---
 
 # Grill to Linear
@@ -184,9 +184,19 @@ rm <file1> <file2> ...
 
 After deleting, remove any directories that are now empty (e.g. `docs/plans/` if empty, `docs/adr/` if empty, then `docs/` if also empty). Do **not** delete `CONTEXT.md`.
 
-## Step 8: Report
+## Step 8: Assign new tickets to the session owner
+
+If the ticket was **newly created** in Step 5B (not an existing ticket from Step 5A), assign it to the user running the session before reporting:
+
+1. Resolve the user's Linear account via `mcp__claude_ai_Linear__list_users`, matching by email (`tnewman@netboxlabs.com`).
+2. Call `mcp__claude_ai_Linear__save_issue` with the issue ID and the resolved `assigneeId`.
+
+Skip this step entirely for existing tickets (Step 5A) — they keep their current assignee.
+
+## Step 9: Report
 
 Output:
 - The Linear issue URL and title
 - Confirmation that all files were attached
 - Confirmation that session docs were deleted
+- Confirmation that the ticket was assigned (new tickets only)
