@@ -184,14 +184,19 @@ rm <file1> <file2> ...
 
 After deleting, remove any directories that are now empty (e.g. `docs/plans/` if empty, `docs/adr/` if empty, then `docs/` if also empty). Do **not** delete `CONTEXT.md`.
 
-## Step 8: Assign new tickets to the session owner
+## Step 8: Mark the ticket Planned (and assign new tickets)
 
-If the ticket was **newly created** in Step 5B (not an existing ticket from Step 5A), assign it to the user running the session before reporting:
+A grilled plan is a **planned** ticket — so both newly created and existing tickets should end the session in the **Planned** status. The difference is only whether the assignee is set.
+
+**New tickets (Step 5B):** assign to the session owner **and** move to Planned.
 
 1. Resolve the user's Linear account via `mcp__claude_ai_Linear__list_users`, matching by email (`tnewman@netboxlabs.com`).
-2. Call `mcp__claude_ai_Linear__save_issue` with the issue ID and the resolved `assigneeId`.
+2. Call `mcp__claude_ai_Linear__save_issue` once with the issue ID, the resolved assignee, and `state: "Planned"`.
 
-Skip this step entirely for existing tickets (Step 5A) — they keep their current assignee.
+**Existing tickets (Step 5A):** move to Planned too, with two guards:
+
+- **Do not change the assignee** — an existing ticket may belong to someone else; leave it as-is.
+- **Only advance the status if the ticket has not started.** Using the `statusType` already returned by `get_issue` in Step 5A: if it is `backlog` or `triage`, call `mcp__claude_ai_Linear__save_issue` with the issue ID and `state: "Planned"` only. If it is already `unstarted` (e.g. already Planned/Todo), `started`, `completed`, or `canceled`, **leave the status untouched** — the grill must never regress in-flight or finished work.
 
 ## Step 9: Report
 
@@ -199,4 +204,4 @@ Output:
 - The Linear issue URL and title
 - Confirmation that all files were attached
 - Confirmation that session docs were deleted
-- Confirmation that the ticket was assigned (new tickets only)
+- Confirmation that the ticket was moved to Planned (and, for new tickets, assigned to the session owner) — or, for an existing ticket already started/completed/canceled, that its status was deliberately left untouched

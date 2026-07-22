@@ -30,7 +30,7 @@ nodes:
   - id: implement-ticket
     command: implement-linear-ticket
     context: fresh
-    model: opus
+    model: fable
     depends_on: [strip-archon-branch-prefix]
     when: "$validate-ticket.output.ready == 'true'"
 
@@ -43,7 +43,7 @@ nodes:
   - id: unit-tests
     command: implement-unit-tests
     context: fresh
-    model: opus
+    model: fable
     depends_on: [lint-typecheck-format]
     skills:
       - vitest-unit-tests
@@ -57,7 +57,7 @@ nodes:
   - id: request-code-review
     command: request-code-review
     context: fresh
-    model: opus
+    model: fable
     depends_on: [lint-typecheck-format-post-tests]
     skills:
       - requesting-code-review
@@ -65,7 +65,7 @@ nodes:
   - id: fix-review-issues
     command: fix-review-issues
     context: fresh
-    model: opus
+    model: fable
     depends_on: [request-code-review]
 
   - id: lint-typecheck-format-post-review
@@ -77,7 +77,7 @@ nodes:
   - id: unit-tests-post-review
     command: implement-unit-tests
     context: fresh
-    model: opus
+    model: fable
     depends_on: [lint-typecheck-format-post-review]
     skills:
       - vitest-unit-tests
@@ -197,7 +197,7 @@ nodes:
       - If a fix spans multiple files, make all necessary changes.
 
       After fixing all issues, print a concise summary of what was changed.
-    model: opus
+    model: fable
     context: fresh
     when: "$classify-review-comments.output.count > '0'"
     depends_on: [classify-review-comments]

@@ -20,11 +20,13 @@ Once you have all commands ready, print them out so the user can review them, th
 
 If the user confirms, for each ticket:
 
-1. Remove any stale worktree for that branch (so Archon always starts fresh from current `develop`):
+1. Set the ticket's Linear status to **"In Progress"** before starting the work, using `mcp__linear-server__update_issue` with the ticket ID and the "In Progress" state.
+
+2. Remove any stale worktree for that branch (so Archon always starts fresh from current `develop`):
    ```bash
    WORKTREE_PATH=$(git worktree list --porcelain | awk '/^worktree /{path=$2} /^branch refs\/heads\/<branch-name>$/{print path}') && [ -n "$WORKTREE_PATH" ] && git worktree remove --force "$WORKTREE_PATH" || true
    ```
 
-2. Then run the workflow using Bash with `run_in_background: true`.
+3. Then run the workflow using Bash with `run_in_background: true`.
 
 Launch all tickets in a single message so they start in parallel. After launching, report back with the branch name for each ticket so the user knows what to watch.

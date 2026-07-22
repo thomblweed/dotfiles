@@ -58,7 +58,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
   "skillOverrides": {
     "react-rerender-composition": "on",
     "figma-use": "off",
@@ -76,7 +75,15 @@
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
-  "effortLevel": "medium",
+  "extraKnownMarketplaces": {
+    "applied-ai": {
+      "source": {
+        "source": "github",
+        "repo": "netboxlabs/applied-ai"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
   "voice": {
     "enabled": true,
     "mode": "hold"

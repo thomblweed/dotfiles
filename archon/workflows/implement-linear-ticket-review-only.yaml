@@ -71,15 +71,33 @@ nodes:
     skills:
       - react-rerender-composition
 
+  - id: review-code-standards
+    command: review-code-standards
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-tests]
+    skills:
+      - code-review
+
+  - id: review-solid-principles
+    command: review-solid-principles
+    context: fresh
+    model: opus
+    depends_on: [lint-typecheck-format-post-tests]
+    skills:
+      - solid-react
+
   - id: fix-all-issues
     command: fix-all-issues
     context: fresh
     model: opus
-    depends_on: [request-code-review, check-performance]
+    depends_on: [request-code-review, check-performance, review-code-standards, review-solid-principles]
     skills:
       - vercel-react-best-practices
       - vercel-composition-patterns
       - react-rerender-composition
+      - code-review
+      - solid-react
 
   - id: unit-tests-post-fixes
     command: implement-unit-tests
