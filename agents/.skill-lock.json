@@ -28,51 +28,6 @@
       "installedAt": "2026-05-07T13:01:35.372Z",
       "updatedAt": "2026-05-07T13:01:35.372Z"
     },
-    "vercel-composition-patterns": {
-      "source": "vercel-labs/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
-      "skillPath": "skills/composition-patterns/SKILL.md",
-      "skillFolderHash": "bf90d0a4b83ea054653350f9c67f6de235d3a368",
-      "installedAt": "2026-05-07T17:45:16.264Z",
-      "updatedAt": "2026-05-07T17:45:16.264Z"
-    },
-    "vercel-react-best-practices": {
-      "source": "vercel-labs/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
-      "skillPath": "skills/react-best-practices/SKILL.md",
-      "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
-      "installedAt": "2026-05-07T17:46:25.614Z",
-      "updatedAt": "2026-05-07T17:46:25.614Z"
-    },
-    "tanstack-query": {
-      "source": "tanstack-skills/tanstack-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
-      "skillPath": "plugins/tanstack-query/skills/tanstack-query/SKILL.md",
-      "skillFolderHash": "50fdcfbff89fba75fd5c2be42701b907d185abeb",
-      "installedAt": "2026-05-08T14:00:28.386Z",
-      "updatedAt": "2026-05-08T14:00:28.386Z"
-    },
-    "tanstack-table": {
-      "source": "tanstack-skills/tanstack-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
-      "skillPath": "plugins/tanstack-table/skills/tanstack-table/SKILL.md",
-      "skillFolderHash": "dc0227e127c47b7f4a192f30594bd7b4f2140a48",
-      "installedAt": "2026-05-08T14:00:50.847Z",
-      "updatedAt": "2026-05-08T14:00:50.847Z"
-    },
-    "tanstack-form": {
-      "source": "tanstack-skills/tanstack-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tanstack-skills/tanstack-skills.git",
-      "skillPath": "plugins/tanstack-form/skills/tanstack-form/SKILL.md",
-      "skillFolderHash": "065d5e98a46cee7820b69a918e3e832b93bab499",
-      "installedAt": "2026-05-08T14:01:04.859Z",
-      "updatedAt": "2026-05-08T14:01:04.859Z"
-    },
     "grill-with-docs": {
       "source": "mattpocock/skills",
       "sourceType": "github",
