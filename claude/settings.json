@@ -58,6 +58,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
+  "model": "sonnet",
   "skillOverrides": {
     "react-rerender-composition": "on",
     "figma-use": "off",
@@ -83,7 +84,7 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "voice": {
     "enabled": true,
     "mode": "hold"

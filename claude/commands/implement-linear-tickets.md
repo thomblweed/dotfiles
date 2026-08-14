@@ -18,7 +18,17 @@ Wait for the user's response, then for each ticket provided:
 
 Once you have all commands ready, print them out so the user can review them, then ask: "Ready to kick off [N] workflow(s). Shall I run them?"
 
-If the user confirms, for each ticket:
+If the user confirms:
+
+0. Before launching any workflow, start a `caffeinate` process to keep the machine awake for the duration of the run(s) — background workflows can take a long time, and macOS sleep will suspend/kill them:
+   ```bash
+   caffeinate -dis &
+   disown
+   echo "caffeinate started with PID $!"
+   ```
+   Record the PID — it's needed to stop caffeinate once every workflow has finished.
+
+For each ticket:
 
 1. Set the ticket's Linear status to **"In Progress"** before starting the work, using `mcp__linear-server__update_issue` with the ticket ID and the "In Progress" state.
 
@@ -29,4 +39,10 @@ If the user confirms, for each ticket:
 
 3. Then run the workflow using Bash with `run_in_background: true`.
 
-Launch all tickets in a single message so they start in parallel. After launching, report back with the branch name for each ticket so the user knows what to watch.
+Launch all tickets in a single message so they start in parallel. After launching, report back with the branch name for each ticket so the user knows what to watch, and mention that caffeinate is keeping the machine awake until the workflows finish.
+
+Once every launched workflow has reported completion (via its background-task notification), kill the caffeinate process so the machine can sleep normally again:
+```bash
+kill <caffeinate-pid>
+```
+Do this even if some workflows fail or are stopped early — caffeinate should never be left running once there's nothing left to babysit.

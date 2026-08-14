@@ -19,7 +19,7 @@ Send a Slack message to `#project-nbl-ui-platform` listing your open PRs ready f
    - If the filtered list is empty, tell the user "All your open PRs have already been posted — nothing new to send" and stop.
    - Briefly log how many PRs were dropped and which ones, so the user can sanity-check the dedup before the Slack post.
 
-4. Ask the user for a one-line summary describing what the (remaining) PRs are about (e.g. "Fix assign discovery job button on agent details page"). If they included it in the command arguments, use that.
+4. Write a one-line summary yourself describing what the (remaining) PRs are about (e.g. "Fix assign discovery job button on agent details page"). Derive it from the PR titles/bodies — do not prompt the user. If the user supplied a summary in the command arguments, use that verbatim instead.
 
 5. Format the message like this — plain text, no emoji header:
 

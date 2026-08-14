@@ -71,14 +71,6 @@ nodes:
     skills:
       - react-rerender-composition
 
-  - id: review-code-standards
-    command: review-code-standards
-    context: fresh
-    model: opus
-    depends_on: [lint-typecheck-format-post-tests]
-    skills:
-      - code-review
-
   - id: review-solid-principles
     command: review-solid-principles
     context: fresh
@@ -91,19 +83,32 @@ nodes:
     command: fix-all-issues
     context: fresh
     model: opus
-    depends_on: [request-code-review, check-performance, review-code-standards, review-solid-principles]
+    depends_on: [request-code-review, check-performance, review-solid-principles]
+    output_format:
+      type: object
+      properties:
+        fixes_applied:
+          type: string
+          enum: ["true", "false"]
+        summary:
+          type: string
+      required: [fixes_applied, summary]
     skills:
       - vercel-react-best-practices
       - vercel-composition-patterns
       - react-rerender-composition
-      - code-review
       - solid-react
 
+  # When fix-all-issues reconciles the three reports down to zero actionable items,
+  # nothing changed — so the post-fix test/lint pass is skipped and the workflow
+  # stops here. lint-typecheck-format-post-fixes then skips by trigger-rule
+  # propagation (its only upstream is skipped, so all_success can't be met).
   - id: unit-tests-post-fixes
     command: implement-unit-tests
     context: fresh
     model: opus
     depends_on: [fix-all-issues]
+    when: "$fix-all-issues.output.fixes_applied == 'true'"
     skills:
       - vitest-unit-tests
 

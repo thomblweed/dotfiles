@@ -18,7 +18,15 @@ npm run lint
 
 Fix all errors and warnings reported. Re-run until clean.
 
-## Step 2: Typecheck
+## Step 2: Lint Staged
+
+```bash
+npm run lint-staged
+```
+
+Fix all errors and warnings reported. Re-run until clean.
+
+## Step 3: Typecheck
 
 ```bash
 npm run typecheck
@@ -31,6 +39,7 @@ Fix all type errors reported. Re-run until clean.
 ## Report
 
 ```
-lint:       passing
-typecheck:  passing
+lint:         passing
+lint-staged:  passing
+typecheck:    passing
 ```
