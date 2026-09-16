@@ -155,38 +155,15 @@ After all commits are successful:
 
    **CRITICAL:** Always use `develop` as the base branch, NOT any other branch.
 
+   **Keep the body short.** Nobody reads a long PR description — a one- or two-sentence summary plus the Linear link is enough. Do not add "Changes", "Commits", "Visual Changes", or "Additional Notes" sections; that detail already lives in the commits and the Linear ticket.
+
    Use the GitHub CLI (`gh`) via Bash to create the PR:
 
    ```bash
    gh pr create --base develop --title "<type>(<scope>): <description>" --body "$(cat <<'EOF'
-   ## Linear Ticket
+   <One or two sentences on what changed and why.>
 
    [<LINEAR-ID>: <ticket-title>](https://linear.app/netboxlabs/issue/<LINEAR-ID>)
-
-   ## Summary
-
-   <Brief description of what was implemented/changed>
-
-   ## Changes
-
-   <List of key changes made>
-   - Change 1
-   - Change 2
-   - ...
-
-   ## Commits
-
-   <List all commits with their messages>
-   - <commit-hash>: <commit-message>
-   - ...
-
-   ## Visual Changes
-
-   <If applicable, note any visual changes or link to Storybook stories>
-
-   ## Additional Notes
-
-   <Any additional context or notes>
    EOF
    )"
    ```
@@ -214,8 +191,8 @@ After all commits are successful:
 ### PR Quality
 
 - PR title should be clear and match Linear ticket
-- PR description should be comprehensive
-- Include all relevant information for reviewers
+- PR description should be **concise**: one or two sentences plus the Linear link, nothing more
+- Do not restate the commit list, a change-by-change breakdown, or other detail already visible in the diff or the Linear ticket
 - Link back to Linear ticket
 
 ## Example Execution
@@ -240,34 +217,9 @@ git push -u origin ui-51/molecule-loadingscreen-new-component
 
 ```bash
 gh pr create --base develop --title "feat(loading-screen): add LoadingScreen molecule component" --body "$(cat <<'EOF'
-## Linear Ticket
+Adds a LoadingScreen molecule component for full-screen loading states, with Storybook stories.
 
 [UI-51: Add LoadingScreen molecule component](https://linear.app/netboxlabs/issue/UI-51)
-
-## Summary
-
-Implements a new LoadingScreen molecule component for displaying full-screen loading states in NetBox Labs applications.
-
-## Changes
-
-- Created LoadingScreen molecule component with full-screen centered layout
-- Added TypeScript types with comprehensive JSDoc
-- Implemented 7 Storybook story variants
-- Used NetBox Labs brand color (#00F2D4) for loading spinner
-- Ensured WCAG 2.1 AA accessibility compliance
-
-## Commits
-
-- abc123: feat(loading-screen): add LoadingScreen molecule component
-- ghi789: docs(loading-screen): add Storybook stories
-
-## Visual Changes
-
-View Storybook stories for LoadingScreen at NetBox Labs/Molecules/LoadingScreen
-
-## Additional Notes
-
-Component uses LoadingSpinner atom and follows atomic design principles. Fully documented with JSDoc for IntelliSense support.
 EOF
 )"
 ```
