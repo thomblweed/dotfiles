@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Edit(/Users/thomasnewman/code/*)",
-      "Write(/Users/thomasnewman/code/*)"
+      "Write(/Users/thomasnewman/code/*)",
+      "Read(/private/tmp/claude-501/**)",
+      "Write(/private/tmp/claude-501/**)",
+      "Edit(/private/tmp/claude-501/**)"
     ],
     "deny": [
       "Read(**/.env)",
@@ -56,9 +59,12 @@
       "Bash(*drop database*)",
       "Bash(*truncate table*)"
     ],
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": [
+      "/private/tmp/claude-501"
+    ]
   },
-  "model": "sonnet",
+  "model": "opus",
   "skillOverrides": {
     "react-rerender-composition": "on",
     "figma-use": "off",
@@ -84,7 +90,22 @@
       }
     }
   },
-  "effortLevel": "medium",
+  "feedbackDrafts": "off",
+  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-sonnet-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-haiku-4-5": {
+      "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    }
+  },
   "voice": {
     "enabled": true,
     "mode": "hold"

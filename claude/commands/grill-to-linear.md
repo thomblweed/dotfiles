@@ -1,11 +1,11 @@
 ---
-description: Run a grill-with-docs session to stress-test a plan, then create a Linear ticket with all session docs attached.
-allowed-tools: Bash, Read, Write, Edit, mcp__claude_ai_Linear__save_issue, mcp__claude_ai_Linear__prepare_attachment_upload, mcp__claude_ai_Linear__create_attachment_from_upload, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__get_attachment, mcp__claude_ai_Linear__delete_attachment, mcp__claude_ai_Linear__list_projects, mcp__claude_ai_Linear__list_issue_labels, mcp__claude_ai_Linear__list_users
+description: Run a grilling + domain-modeling session to stress-test a plan, then create a Linear ticket with all session docs attached.
+allowed-tools: Bash, Read, Write, Edit, Skill, Agent, mcp__claude_ai_Linear__save_issue, mcp__claude_ai_Linear__prepare_attachment_upload, mcp__claude_ai_Linear__create_attachment_from_upload, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__get_attachment, mcp__claude_ai_Linear__delete_attachment, mcp__claude_ai_Linear__list_projects, mcp__claude_ai_Linear__list_issue_labels, mcp__claude_ai_Linear__list_users
 ---
 
 # Grill to Linear
 
-Runs a `/grill-with-docs` session to stress-test a plan, then attaches all session docs to a Linear ticket (existing or new).
+Runs a `grilling` + `domain-modeling` session (the same behavior `/grill-with-docs` describes) to stress-test a plan, then attaches all session docs to a Linear ticket (existing or new).
 
 ## Step 1: Grill session
 
@@ -18,21 +18,21 @@ What kind of ticket are we creating?
   T — Task / horizontal: technical description (Context + Key decisions)
   G — User Gherkin: user-facing acceptance criteria as Gherkin
       (Feature / Scenario / Given–When–Then)
+  P — Placeholder: Gherkin-only, implementation deliberately deferred —
+      no grill session, no plan, stays in Backlog
 ```
 
-Note the choice — it selects the description template in **Step 5B** and nothing else. The grill session, plan file, ADRs, and attachments are identical for both. If the session referenced an **existing** ticket (Step 5A), the description is not modified, so this question can be skipped.
+Note the choice — it selects the description template in **Step 5B** and nothing else. The grill session, plan file, ADRs, and attachments are identical for T and G. If the session referenced an **existing** ticket (Step 5A), the description is not modified, so this question can be skipped.
 
-Invoke the `grill-with-docs` skill with the user's description and run the session to completion — until a fully agreed approach with no unresolved decisions is reached.
+**If P (placeholder):** skip the grill session and **Steps 2, 3, and 6** entirely — a placeholder gets no plan file and no attachments. Go straight to **Step 4** (a placeholder is always a new ticket, so it always lands on **Step 5B**), write only the Gherkin description from what the user has given you, and in **Step 8** leave the ticket in **Backlog** instead of Planned.
+
+**Otherwise (T or G):** invoke the `grilling` skill, using the `domain-modeling` skill, with the user's description, and run the session to completion — until a fully agreed approach with no unresolved decisions is reached. (`grill-with-docs` is reserved for direct user invocation and errors if a skill or command tries to invoke it itself — invoking `grilling` + `domain-modeling` directly gets the same effect: the interview, with `CONTEXT.md`/ADRs captured inline via `domain-modeling`.)
 
 ## Step 2: Write session files
 
 The grill session will have already updated `CONTEXT.md` and created any ADRs (`docs/adr/NNNN-<slug>.md`) inline during the session. Once the approach is agreed, write one additional file:
 
-**`docs/plans/NNNN-plan-<slug>.md`** — the agreed plan, where `NNNN` is the next sequential number and `<slug>` is a short kebab-case description of the plan. Determine the next number by taking the highest existing `NNNN` across both `docs/plans/` and `docs/adr/`:
-```bash
-{ ls docs/plans/ 2>/dev/null; ls docs/adr/ 2>/dev/null; } | grep -oE '^[0-9]{4}' | sort | tail -1
-```
-If the command returns nothing (both directories empty or missing), use `0001`. Otherwise increment by 1 and zero-pad to 4 digits (e.g. `0003` → `0004`). Use this single `NNNN` for both the plan file and any ADR files created during the session. Structure:
+**`docs/plans/0001-plan-<slug>.md`** — the agreed plan, where `<slug>` is a short kebab-case description of the plan. Number it `0001` for this ticket regardless of any stray files already sitting in `docs/plans/` or `docs/adr/` — those directories are ephemeral (emptied every session, per Step 7), so anything already there belongs to a different, already-attached ticket and must not be extended. If the session created ADRs, number them independently, sequentially starting at `0001` within this session (`docs/adr/0001-<slug>.md`, `0002-<slug>.md`, …). Plan file structure:
 
 ```markdown
 # <Plan title>
@@ -112,7 +112,7 @@ Wait for their response before continuing.
 - **title**: for a **task/horizontal** ticket, action-oriented starting with a verb (Add / Implement / Migrate / Refactor); for a **user Gherkin** ticket, outcome-oriented describing the user-facing result (e.g. "Build the Credential sets landing page content (empty state)")
 - **project**: resolved project ID
 - **labels**: resolved label IDs (omit if none)
-- **priority**: medium (value: 2)
+- **priority**: medium (value: 3 — Linear's scale is 0=None, 1=Urgent, 2=High, 3=Medium, 4=Low). After creating, check the returned `priority.name` is `"Medium"` and correct with a follow-up `save_issue` if not.
 - **description**: markdown derived from the plan file, using the template for the ticket type chosen in Step 1:
 
 **Task / horizontal:**
@@ -186,9 +186,11 @@ After deleting, remove any directories that are now empty (e.g. `docs/plans/` if
 
 ## Step 8: Mark the ticket Planned (and assign new tickets)
 
-A grilled plan is a **planned** ticket — so both newly created and existing tickets should end the session in the **Planned** status. The difference is only whether the assignee is set.
+A grilled plan is a **planned** ticket — so both newly created and existing tickets should end the session in the **Planned** status. The difference is only whether the assignee is set. The one exception is a **placeholder** ticket (Step 1), which never got a plan, and stays in Backlog.
 
-**New tickets (Step 5B):** assign to the session owner **and** move to Planned.
+**Placeholder tickets (Step 1, option P):** assign to the session owner, same as new tickets below, but do **not** change the status — leave it at **Backlog**. A placeholder is deliberately not grilled to completion, so Planned would overstate its readiness.
+
+**New tickets (Step 5B, T or G):** assign to the session owner **and** move to Planned.
 
 1. Resolve the user's Linear account via `mcp__claude_ai_Linear__list_users`, matching by email (`tnewman@netboxlabs.com`).
 2. Call `mcp__claude_ai_Linear__save_issue` once with the issue ID, the resolved assignee, and `state: "Planned"`.
@@ -202,6 +204,6 @@ A grilled plan is a **planned** ticket — so both newly created and existing ti
 
 Output:
 - The Linear issue URL and title
-- Confirmation that all files were attached
-- Confirmation that session docs were deleted
+- For a placeholder ticket (Step 1, option P): confirmation it was assigned to the session owner and deliberately left in Backlog (no plan file, no attachments)
+- Otherwise: confirmation that all files were attached, and that session docs were deleted
 - Confirmation that the ticket was moved to Planned (and, for new tickets, assigned to the session owner) — or, for an existing ticket already started/completed/canceled, that its status was deliberately left untouched

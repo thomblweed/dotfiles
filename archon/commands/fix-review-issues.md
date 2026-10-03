@@ -1,5 +1,5 @@
 ---
-description: Fix Critical, Important, and Minor issues identified in a code review report.
+description: Fix Critical and Important issues identified in a code review report. Minor issues (nits) are not auto-fixed — they're reported at the end for manual review.
 ---
 
 # Fix Review Issues
@@ -30,9 +30,9 @@ Then stop — do not proceed to Phase 1.
 
 ## Phase 1: TRIAGE
 
-Parse the review report above. Extract all **Critical**, **Important**, and **Minor** issues.
+Parse the review report above. Extract all **Critical** and **Important** issues — these will be fixed.
 
-Minor issues should be fixed unless the fix would require introducing an abstraction solely to eliminate duplicated code — when the duplication is simple and the abstraction would add indirection without meaningful benefit, skip it and note it in the Skipped list.
+Extract all **Minor** issues separately as **Nits** — these will NOT be fixed. They are reported at the end for manual review.
 
 If there are no Critical, Important, or Minor issues, print:
 
@@ -45,23 +45,22 @@ Then stop.
 ### PHASE_1_CHECKPOINT
 - [ ] All Critical issues listed
 - [ ] All Important issues listed
-- [ ] All Minor issues listed, with a note on each: fix or skip (with reason)
+- [ ] All Minor issues listed under Nits (not to be fixed)
 
 ---
 
 ## Phase 2: FIX
 
-Fix each Critical, Important, and actionable Minor issue in the order listed.
+Fix each Critical and Important issue in the order listed. Do not fix Minor issues — leave them untouched for the Nits report.
 
 Rules:
 - Fix exactly what the reviewer identified — do not introduce unrelated changes.
 - Follow the existing patterns and conventions in the codebase.
-- For Minor issues: apply the simplest fix that resolves the concern. Do not introduce a new abstraction or helper just to deduplicate a few lines — prefer the straightforward inline fix.
 
 ### PHASE_2_CHECKPOINT
 - [ ] Every Critical issue fixed
 - [ ] Every Important issue fixed
-- [ ] Every actionable Minor issue fixed
+- [ ] No Minor issues touched
 
 ---
 
@@ -71,8 +70,8 @@ Print a concise summary:
 
 ```
 Fixed:
-  <bullet list of issues fixed, with file:line and one-line description>
+  <bullet list of Critical/Important issues fixed, with file:line and one-line description>
 
-Skipped:
-  <any issues skipped and why — e.g. "Minor: abstraction would add indirection for no gain">
+Nits (not fixed — for manual review):
+  <bullet list of Minor issues, with file:line and one-line description>
 ```
