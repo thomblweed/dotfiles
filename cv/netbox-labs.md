@@ -11,7 +11,8 @@ Sole senior frontend engineer and frontend tech lead for the team, setting how f
 - **Data and state:** TanStack Query, TanStack Table, TanStack Form, Zod, Zustand
 - **Testing and quality:** Vitest, Testing Library, Playwright, ESLint, Prettier
 - **Delivery:** GitHub Actions, Docker, semantic-release, Renovate, Sentry
-- **AI and workflow:** Claude Code, Archon, Linear, Figma
+- **AI tooling:** Claude Code, Archon
+- **Design and planning:** Figma, Linear
 
 ## Responsibilities
 
