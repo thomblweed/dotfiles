@@ -4,6 +4,15 @@ _May 2026 – present_
 
 Sole senior frontend engineer and frontend tech lead for the team, setting how frontend work is designed, built and delivered. The team's app is a React and TypeScript micro-frontend (Module Federation) within NetBox Labs' unified platform UI, covering network assurance and fleet management.
 
+## Tech
+
+- **Core:** TypeScript, React, React Router, Tailwind CSS, Vite
+- **Architecture:** Module Federation (micro-frontends), npm workspaces monorepo, ConnectRPC with Protocol Buffers
+- **Data and state:** TanStack Query, TanStack Table, TanStack Form, Zod, Zustand
+- **Testing and quality:** Vitest, Testing Library, Playwright, ESLint, Prettier
+- **Delivery:** GitHub Actions, Docker, semantic-release, Renovate, Sentry
+- **AI and workflow:** Claude Code, Archon, Linear, Figma
+
 ## Responsibilities
 
 - Lead the team's frontend direction: architecture, patterns, coding standards and tooling choices.
