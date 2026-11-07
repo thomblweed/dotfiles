@@ -19,7 +19,14 @@ Send a Slack message to `#project-nbl-ui-platform` listing your open PRs ready f
    - If the filtered list is empty, tell the user "All your open PRs have already been posted — nothing new to send" and stop.
    - Briefly log how many PRs were dropped and which ones, so the user can sanity-check the dedup before the Slack post.
 
-4. Write a one-line summary yourself describing what the (remaining) PRs are about (e.g. "Fix assign discovery job button on agent details page"). Derive it from the PR titles/bodies — do not prompt the user. If the user supplied a summary in the command arguments, use that verbatim instead.
+4. Write the summary line yourself, without prompting the user. If the user supplied a summary in the command arguments, use that verbatim instead.
+   - **One short sentence, 12 words at most.** Say what changes, not how or why.
+   - Write it from the PR titles alone. Don't read the PR bodies or Linear tickets for it: that's where the excess detail comes from.
+   - Leave out ticket IDs, file, component and flag names, follow-up work, rationale and caveats. Reviewers get those from the PR.
+   - For several PRs, name what they have in common rather than listing each one, and never chain separate changes with "and".
+   - Good: "Fix the assign discovery job button on the agent details page"
+   - Good: "A New Policy button and empty New Policy page for Telemetry"
+   - Too wordy: "Add a New Policy button to the Telemetry Policies page, opening a heading-only New Policy page that MON-555's create form will fill, and mark the Observability designs as prototypes only in the docs."
 
 5. Format the message like this — plain text, no emoji header:
 
@@ -44,4 +51,4 @@ PR(nbl-ui-observability): <https://github.com/...|Another PR title>
 - Org: `netboxlabs` (scans all repos in the org)
 - Channel: `#project-nbl-ui-platform`
 - Drafts are excluded via `--draft=false`
-- Keep the message short — no PR body excerpts or labels
+- Keep the message short: the summary line and the PR links, nothing else. No PR body excerpts, labels, ticket IDs or extra sentences
