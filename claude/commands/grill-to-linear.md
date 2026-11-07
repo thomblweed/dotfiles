@@ -26,11 +26,11 @@ Note the choice — it selects the description template in **Step 5B** and nothi
 
 **If P (placeholder):** skip the grill session and **Steps 2, 3, and 6** entirely — a placeholder gets no plan file and no attachments. Go straight to **Step 4** (a placeholder is always a new ticket, so it always lands on **Step 5B**), write only the Gherkin description from what the user has given you, and in **Step 8** leave the ticket in **Backlog** instead of Planned.
 
-**Otherwise (T or G):** invoke the `grilling` skill, using the `domain-modeling` skill, with the user's description, and run the session to completion — until a fully agreed approach with no unresolved decisions is reached. (`grill-with-docs` is reserved for direct user invocation and errors if a skill or command tries to invoke it itself — invoking `grilling` + `domain-modeling` directly gets the same effect: the interview, with `CONTEXT.md`/ADRs captured inline via `domain-modeling`.)
+**Otherwise (T or G):** invoke the `grilling` skill, using the `domain-modeling` skill, with the user's description, and run the session to completion — until a fully agreed approach with no unresolved decisions is reached. (`grill-with-docs` is reserved for direct user invocation and errors if a skill or command tries to invoke it itself — invoking `grilling` + `domain-modeling` directly gets the same effect: the interview, with `GLOSSARY.md`/ADRs captured inline via `domain-modeling`.)
 
 ## Step 2: Write session files
 
-The grill session will have already updated `CONTEXT.md` and created any ADRs (`docs/adr/NNNN-<slug>.md`) inline during the session. Once the approach is agreed, write one additional file:
+The grill session will have already updated `GLOSSARY.md` and created any ADRs (`docs/adr/NNNN-<slug>.md`) inline during the session. Once the approach is agreed, write one additional file:
 
 **`docs/plans/0001-plan-<slug>.md`** — the agreed plan, where `<slug>` is a short kebab-case description of the plan. Number it `0001` for this ticket regardless of any stray files already sitting in `docs/plans/` or `docs/adr/` — those directories are ephemeral (emptied every session, per Step 7), so anything already there belongs to a different, already-attached ticket and must not be extended. If the session created ADRs, number them independently, sequentially starting at `0001` within this session (`docs/adr/0001-<slug>.md`, `0002-<slug>.md`, …). Plan file structure:
 
@@ -182,7 +182,7 @@ Delete the plan file written in Step 2 and any ADR files created during the gril
 rm <file1> <file2> ...
 ```
 
-After deleting, remove any directories that are now empty (e.g. `docs/plans/` if empty, `docs/adr/` if empty, then `docs/` if also empty). Do **not** delete `CONTEXT.md`.
+After deleting, remove any directories that are now empty (e.g. `docs/plans/` if empty, `docs/adr/` if empty, then `docs/` if also empty). Do **not** delete `GLOSSARY.md`.
 
 ## Step 8: Mark the ticket Planned (and assign new tickets)
 
