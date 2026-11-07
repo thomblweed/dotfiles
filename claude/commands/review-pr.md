@@ -1,23 +1,53 @@
 ---
-description: Review a GitHub PR using Vercel React best-practices, composition, re-render, and SOLID principles skills
-argument-hint: "[github PR url]"
+description: Review a GitHub PR or the local branch's changes using Vercel React best-practices, composition, re-render, and SOLID principles skills
+argument-hint: '[github PR url]'
 allowed-tools: Bash, Read, Write, Grep, Glob, WebFetch, Skill, AskUserQuestion
 ---
 
 # Review PR
 
-Review a GitHub pull request for React/Next.js quality, focusing on performance,
-composition, unnecessary re-renders, and SOLID architecture.
+Review a GitHub pull request, or the current branch's local changes, for
+React/Next.js quality, focusing on performance, composition, unnecessary
+re-renders, and SOLID architecture.
 
-## 1. Get the PR URL
+## 1. Choose what to review
 
-The PR URL passed as an argument (may be empty): `$ARGUMENTS`
+The argument (may be empty): `$ARGUMENTS`
 
-- If a GitHub PR URL was provided in the argument, use it.
-- If the argument is empty, use `AskUserQuestion` to prompt the user for the
-  GitHub PR URL before doing anything else. Do not proceed until you have a URL.
+- If the argument holds a GitHub PR URL, this is a **PR review** of that URL.
+  Skip the question.
+- Otherwise, before doing anything else, use `AskUserQuestion` to ask whether
+  this is a review of the **local branch's changes** or a **PR review**, and
+  say in the question that for a PR they can choose Other and paste its URL.
+  Two options:
+  1. **Local branch changes**: the current branch's commits and uncommitted
+     work, against its base branch.
+  2. **PR review**: a GitHub pull request.
+- If the user picks PR review without giving a URL, ask for the GitHub PR URL
+  in a plain message and wait. Do not proceed until you have one.
 
-## 2. Fetch the PR diff
+## 2. Fetch the diff
+
+### Local branch changes
+
+The base branch is the branch's open PR's base
+(`gh pr view --json baseRefName --jq .baseRefName`), or the repo's default
+branch (`gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`)
+when the branch has no PR. Fetch it, then diff the working tree against the
+merge-base, so committed, staged and unstaged changes all count:
+
+```
+git fetch origin <base>
+git diff --stat $(git merge-base origin/<base> HEAD)
+git diff $(git merge-base origin/<base> HEAD)
+git ls-files --others --exclude-standard
+```
+
+`git diff` leaves out untracked files, so read each one the last command lists
+in full. Tell the user the branch, the base and the number of changed files
+before starting the review.
+
+### PR review
 
 Use the `gh` CLI to pull the PR metadata and full diff:
 
@@ -65,7 +95,10 @@ posted to GitHub is held to the much tighter limit in step 6.
 
 ## 5. Offer to post the findings to the PR
 
-Only if the review produced at least one finding, use `AskUserQuestion` to ask
+A review of local branch changes stops after step 4: there's no PR to post to.
+
+Only for a PR review, and only if it produced at least one finding, use
+`AskUserQuestion` to ask
 whether to post them as inline comments on the PR. Skip the question entirely
 when there are no findings — just report the clean result.
 
@@ -88,7 +121,7 @@ manual note from you personally. Every piece of posted text must open with an
 explicit AI-authored tag, no exceptions:
 
 - **Review body**: first line is `_🤖 Automated review — posted by Claude
-  Code, not manually written._`, then a blank line, then the summary.
+Code, not manually written._`, then a blank line, then the summary.
 - **Each inline comment**: the bold issue line itself carries the tag —
   `**🤖 Claude — <issue name>** (severity)` — so attribution survives even if
   someone reads just that one comment in isolation, out of review-body context.
