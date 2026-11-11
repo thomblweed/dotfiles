@@ -1,14 +1,15 @@
 ---
-description: Review a GitHub PR or the local branch's changes using Vercel React best-practices, composition, re-render, and SOLID principles skills
+description: Review a GitHub PR or the local branch's changes against the Vercel React best-practices, composition, re-render and SOLID skills, reporting only the violations the diff introduces
 argument-hint: '[github PR url]'
 allowed-tools: Bash, Read, Write, Grep, Glob, WebFetch, Skill, AskUserQuestion
 ---
 
 # Review PR
 
-Review a GitHub pull request, or the current branch's local changes, for
-React/Next.js quality, focusing on performance, composition, unnecessary
-re-renders, and SOLID architecture.
+Review a GitHub pull request, or the current branch's local changes, against
+four React skills: `vercel-react-best-practices`, `vercel-composition-patterns`,
+`react-rerender-composition` and `solid-react`. Report only the violations the
+diff introduces.
 
 ## 1. Choose what to review
 
@@ -16,15 +17,18 @@ The argument (may be empty): `$ARGUMENTS`
 
 - If the argument holds a GitHub PR URL, this is a **PR review** of that URL.
   Skip the question.
-- Otherwise, before doing anything else, use `AskUserQuestion` to ask whether
-  this is a review of the **local branch's changes** or a **PR review**, and
-  say in the question that for a PR they can choose Other and paste its URL.
-  Two options:
-  1. **Local branch changes**: the current branch's commits and uncommitted
-     work, against its base branch.
-  2. **PR review**: a GitHub pull request.
-- If the user picks PR review without giving a URL, ask for the GitHub PR URL
-  in a plain message and wait. Do not proceed until you have one.
+- Otherwise, find the current branch's open PR with
+  `gh pr view --json number,url,baseRefName`.
+  - No open PR: this is a **local branch review**, the current branch's commits
+    and uncommitted work against its base branch. Skip the question.
+  - An open PR: use `AskUserQuestion` to ask whether this is a review of the
+    **local branch's changes** or a **PR review** of that PR, and say in the
+    question that for another PR they can choose Other and paste its URL. Two
+    options:
+    1. **Local branch changes**: the current branch's commits and uncommitted
+       work, against its base branch.
+    2. **PR review**: the branch's open PR.
+- If the user pastes a URL under Other, review that PR.
 
 ## 2. Fetch the diff
 
@@ -49,20 +53,60 @@ before starting the review.
 
 ### PR review
 
-Use the `gh` CLI to pull the PR metadata and full diff:
+Use the `gh` CLI to pull the PR metadata, the full diff, and every earlier
+review, inline thread and conversation comment:
 
 ```
 gh pr view <url> --json title,body,author,files,additions,deletions,baseRefName,headRefName
 gh pr diff <url>
+gh api repos/<owner>/<repo>/pulls/<n>/reviews --paginate
+gh api repos/<owner>/<repo>/pulls/<n>/comments --paginate
+gh api repos/<owner>/<repo>/issues/<n>/comments --paginate
 ```
+
+Read the earlier threads before reviewing. The report carries only points no
+earlier review or thread has settled; settled means the author fixed it,
+answered it or deferred it.
+
+When the PR's repo isn't the one this session runs in, that repo's conventions
+are the review's standard, and none of them loaded with the session. Read its
+root `AGENTS.md`, the `AGENTS.md` of each package the PR changes, and each
+`.claude/rules/*.md` whose `paths:` match a changed file, from a local checkout
+at the PR head or with
+`gh api -H 'Accept: application/vnd.github.raw' 'repos/<owner>/<repo>/contents/<path>?ref=<headRefName>'`.
 
 If `gh` fails (e.g. not authenticated or the repo isn't checked out locally),
 fall back to `WebFetch` on the PR URL to read what you can, and tell the user
 what was unavailable.
 
-## 3. Run the review skills
+## 3. Review the diff
 
-Load and apply all four skills against the changed code, in this order:
+The review reads the diff, and ESLint is the only thing it runs: lint first,
+then the four skills.
+
+### Lint first
+
+Lint runs in every repo. How much of the four skills it covers depends on the
+repo under review: nbl-ui-observability lints their mechanical rules, and lists
+what it leaves to each skill under "Not linted, and left to the skill" in
+`packages/eslint-config/AGENTS.md`. A repo without such a list lints none of
+them.
+
+- **PR review**: read the PR's lint check from `gh pr checks <url>`
+  (`lint-staged-result` in the nbl-ui repos). A failing check is a finding. A
+  pending or missing check leaves lint unconfirmed, and the report says so.
+- **Local branch review**: run `npx eslint` from the repo root on the changed
+  `.ts` and `.tsx` files, untracked ones included. ESLint finds each file's own
+  `eslint.config.js`. Each error it reports is a finding.
+
+  ```
+  npx eslint $(git diff --name-only --diff-filter=d $(git merge-base origin/<base> HEAD) -- '*.ts' '*.tsx') \
+    $(git ls-files --others --exclude-standard -- '*.ts' '*.tsx')
+  ```
+
+### Then the four skills, when a `.tsx` component or a hook changed
+
+Load all four, in this order:
 
 1. `Skill(vercel-react-best-practices)` — React/Next.js performance patterns.
 2. `Skill(vercel-composition-patterns)` — composition, compound components,
@@ -73,16 +117,37 @@ Load and apply all four skills against the changed code, in this order:
    fetches, derives, and renders at once; growing `if`/`switch` ladders and
    boolean-prop sprawl; components welded to a concrete client or transport.
 
-Evaluate the diff through each skill's lens. Only report issues that are
-actually present in the changed code — do not invent findings to fill sections.
+- **Done when** every changed component and hook hunk has been checked against
+  each of the four skills.
+- **Report only the violations the diff introduces**, each naming the skill
+  rule it breaks. A violation on a line the diff leaves alone isn't the PR's. A
+  skill the diff doesn't violate gets a one-line clean section.
+- **Judgement goes to what lint can't see**: each skill's "Not linted" list in
+  a repo that has one, and every rule of the four in a repo that doesn't.
+- **Read beyond the changed files only to settle a finding already in hand.** A
+  PR's file at its head comes from
+  `gh api -H 'Accept: application/vnd.github.raw' 'repos/<owner>/<repo>/contents/<path>?ref=<headRefName>'`.
+- **A violation lint could have caught** (a fixed syntactic pattern, a banned
+  API, an import shape) is reported like any other. In a repo with "Not linted"
+  lists, the summary also lists it as a **lint-rule candidate**. The review
+  files nothing.
+- **Each suggested fix** goes through the four skills and the code-style rules
+  of the repo under review, by reading. A fix that fails any of them is
+  reworked until it passes.
+
+A diff that changes only validation, selectors, utils, queries, tests or docs
+skips the four skills, and the report says so.
 
 ## 4. Report findings in the terminal
 
-Produce a single consolidated review, grouped by the four skill areas above.
+Produce a single consolidated review, grouped by what step 3 applied: lint
+first, then each skill's area.
 For each finding include:
 
 - **File and line** (clickable `path:line`).
-- **Severity** — blocker / should-fix / nit.
+- **Severity**: a **blocker** breaks users or data; a **should-fix** is a
+  user-visible defect, or a break of a rule the repo states; anything else is a
+  **nit**, including an untested branch that's rarely reached.
 - **What** the issue is and **why** it matters (cite the relevant skill guidance).
 - **Suggested fix** — concrete, minimal, matching the surrounding code style.
 
