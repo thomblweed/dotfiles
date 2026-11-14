@@ -24,6 +24,10 @@ symlink_file() {
 symlink_dir  "claude/commands"          ".claude/commands"
 symlink_file "claude/settings.json"     ".claude/settings.json"
 symlink_file "claude/statusline-command.sh" ".claude/statusline-command.sh"
+for skill in "$DOTFILES"/claude/skills/*/; do
+  name="$(basename "$skill")"
+  symlink_dir "claude/skills/$name" ".claude/skills/$name"
+done
 symlink_dir  "archon/commands"          ".archon/commands"
 symlink_dir  "archon/workflows"         ".archon/workflows"
 symlink_file "agents/.skill-lock.json" ".agents/.skill-lock.json"
